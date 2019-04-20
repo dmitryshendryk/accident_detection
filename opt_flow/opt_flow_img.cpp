@@ -72,7 +72,7 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
     Ptr<cuda::OpticalFlowDual_TVL1> alg_tvl1 = cuda::OpticalFlowDual_TVL1::create();
 
     int vidID = 0;
-    std::string video, outfile_u, outfile_v, outfile_flow, outfile_jpeg;
+    std::string video, outfile_v, outfile_flow, outfile_jpeg;
 
         // cout << vid_path << endl;
 
