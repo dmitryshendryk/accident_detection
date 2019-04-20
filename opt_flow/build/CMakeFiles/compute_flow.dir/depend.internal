@@ -8,6 +8,63 @@ CMakeFiles/compute_flow.dir/main_img.cpp.o
  /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/main_img.cpp
  /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/opt_flow.hpp
  /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/zmq_client.hpp
+ /home/dmitry/anaconda3/include/qt/QtCore/QDirIterator
+ /home/dmitry/anaconda3/include/qt/QtCore/QFileInfo
+ /home/dmitry/anaconda3/include/qt/QtCore/QString
+ /home/dmitry/anaconda3/include/qt/QtCore/qalgorithms.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qarraydata.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic_bootstrap.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic_cxx11.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic_msvc.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qbasicatomic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qbytearray.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qbytearraylist.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qchar.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qcompilerdetection.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qconfig-bootstrapped.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qconfig.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qcontainerfwd.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qcoreevent.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qdir.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qdiriterator.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qfile.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qfiledevice.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qfileinfo.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qflags.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qgenericatomic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qglobal.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qglobalstatic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qhash.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qhashfunctions.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qiodevice.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qiterator.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qlist.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qlogging.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qmetatype.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qmutex.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qnamespace.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qnumeric.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobject.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobject_impl.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobjectdefs.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobjectdefs_impl.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qpair.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qprocessordetection.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qrefcount.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qregexp.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qscopedpointer.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qshareddata.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstring.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstringbuilder.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstringlist.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstringmatcher.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qsysinfo.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qsystemdetection.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qtcore-config.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qtypeinfo.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qvarlengtharray.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qversiontagging.h
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h
@@ -161,6 +218,63 @@ CMakeFiles/compute_flow.dir/opt_flow_img.cpp.o
  /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/opt_flow.hpp
  /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/opt_flow_img.cpp
  /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/zmq_client.hpp
+ /home/dmitry/anaconda3/include/qt/QtCore/QDirIterator
+ /home/dmitry/anaconda3/include/qt/QtCore/QFileInfo
+ /home/dmitry/anaconda3/include/qt/QtCore/QString
+ /home/dmitry/anaconda3/include/qt/QtCore/qalgorithms.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qarraydata.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic_bootstrap.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic_cxx11.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qatomic_msvc.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qbasicatomic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qbytearray.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qbytearraylist.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qchar.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qcompilerdetection.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qconfig-bootstrapped.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qconfig.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qcontainerfwd.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qcoreevent.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qdir.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qdiriterator.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qfile.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qfiledevice.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qfileinfo.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qflags.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qgenericatomic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qglobal.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qglobalstatic.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qhash.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qhashfunctions.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qiodevice.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qiterator.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qlist.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qlogging.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qmetatype.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qmutex.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qnamespace.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qnumeric.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobject.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobject_impl.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobjectdefs.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qobjectdefs_impl.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qpair.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qprocessordetection.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qrefcount.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qregexp.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qscopedpointer.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qshareddata.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstring.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstringbuilder.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstringlist.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qstringmatcher.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qsysinfo.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qsystemdetection.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qtcore-config.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qtypeinfo.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qvarlengtharray.h
+ /home/dmitry/anaconda3/include/qt/QtCore/qversiontagging.h
  /usr/local/include/opencv/cxcore.h
  /usr/local/include/opencv2/calib3d.hpp
  /usr/local/include/opencv2/calib3d/calib3d_c.h

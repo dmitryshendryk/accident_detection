@@ -71,8 +71,11 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
 
     Ptr<cuda::OpticalFlowDual_TVL1> alg_tvl1 = cuda::OpticalFlowDual_TVL1::create();
 
-    int vidID, i_frame, i_folder = 0;
+    int vidID, i_frame, i_folder;
+     std::string res_folder_u, res_folder_v;
     std::string video, outfile_u, outfile_v, outfile_flow, outfile_jpeg;
+    i_frame = 0;
+    i_folder = 0;
 
         // cout << vid_path << endl;
 
@@ -237,40 +240,41 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
                         optflow.at<Vec3b>(i, j)[2] = mag_nor.at<uchar>(i, j);
                     }
                 }
-
                 sprintf(cad, "/frame%06d.jpg", i_frame);
-
+                cout << i_frame << '\n';
                 if (i_frame == 20) 
                 {
-                    i_folder += 1;
+                    i_folder++;
                     
-                    sprintf(buff, "/%06d", i_folder);
-
+                    sprintf(buff, "%06d", i_folder);
+                    
                     QString sub_folder_u = QString::fromStdString(outfile_u + buff);
                     QString sub_folder_v = QString::fromStdString(outfile_v + buff);
+                   
+                    res_folder_u = sub_folder_u.toStdString();
+                    res_folder_v = sub_folder_v.toStdString();
 
       		        bool folder_exists_u = QDir(sub_folder_u).exists();
                     bool folder_exists_v = QDir(sub_folder_v).exists();
                     
-                    if (folder_exists_u)
+                    if (!folder_exists_u)
                         bool folder_created = QDir().mkpath(sub_folder_u);
-                    if (folder_exists_v)
+                    if (!folder_exists_v)
                         bool folder_created = QDir().mkpath(sub_folder_v);
                     i_frame = 0;
 
-                    outfile_u = sub_folder_u.toStdString();
-                    outfile_v = sub_folder_v.toStdString();
-                    cout << outfile_u << "\n";
-                    cout << outfile_v << "\n";
+                   
+                    cout << res_folder_u << "\n";
+                    cout << res_folder_v << "\n";
                     continue;
 
 
                     // nframes = 0;
                 }
 
-                imwrite(outfile_u + cad, img_u);
-                imwrite(outfile_v + cad, img_v);
-
+                imwrite(res_folder_u + cad, img_u);
+                imwrite(res_folder_v + cad, img_v);
+                i_frame++;
                 // ct1->pImg_V = img_v;
                 // ct1->pImg_U = img_u;
                 // *pImg_V = img_v;
