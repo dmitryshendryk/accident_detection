@@ -152,6 +152,7 @@ def demo(yolo, vid_path):
         # sub_results = p.decode("utf-8")
         # print("Result: {}".format(sub_results))
         # cv2.imshow("Optical flow", fplot.flowToColor(flow, 3.0))
+        print("t")
         cv2.imshow('Tracking', frame)
         cv2.imwrite('/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_rgb/frame_' + str(count) + '.jpg', frame)
         count += 1
