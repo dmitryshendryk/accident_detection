@@ -141,8 +141,8 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
         // outfile_u = out_folder_u.toStdString();
         // outfile_v = out_folder_v.toStdString();
 
-        QString out_u = QString::fromStdString(out_path + "u/");
-        QString out_v = QString::fromStdString(out_path + "v/");
+        QString out_u = QString::fromStdString(out_path + "/u/");
+        QString out_v = QString::fromStdString(out_path + "/v/");
         outfile_u = out_u.toStdString();
 		outfile_v = out_v.toStdString();
 
