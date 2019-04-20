@@ -51,6 +51,7 @@ namespace pre_process
             Mat motion_flow, flow_rgb;
             Mat flowCPU, planes[3], mag;
             char cad[N_CHAR];
+            char buff[N_CHAR];
             struct timeval tod1;
             double t1 = 0.0, t2 = 0.0, tdflow = 0.0, t1fr = 0.0, t2fr = 0.0, tdframe = 0.0;
 

@@ -71,7 +71,7 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
 
     Ptr<cuda::OpticalFlowDual_TVL1> alg_tvl1 = cuda::OpticalFlowDual_TVL1::create();
 
-    int vidID = 0;
+    int vidID, i_frame, i_folder = 0;
     std::string video, outfile_u, outfile_v, outfile_flow, outfile_jpeg;
 
         // cout << vid_path << endl;
@@ -239,6 +239,25 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
                 }
 
                 sprintf(cad, "/frame%06d.jpg", nframes);
+
+                if (i_frame == 20) 
+                {
+                    i_folder += 1;
+                    
+                    sprintf(buff, "/%06d", i_folder);
+                    // QString sub_folder_u = QString::fromStdString(out_path + "_x/");
+      		        bool folder_exists_u = QDir(outfile_u + buff).exists();
+                    bool folder_exists_v = QDir(outfile_v + buff).exists();
+                    cout << outfile_u + buff << "\n";
+                    cout << outfile_v + buff << "\n";
+
+                    if (folder_exists_u)
+                        bool folder_created = QDir().mkpath(outfile_u + buff);
+                    if (folder_exists_v)
+                        bool folder_created = QDir().mkpath(outfile_v + buff);
+                    
+                    nframes = 0;
+                }
 
                 imwrite(outfile_u + cad, img_u);
                 imwrite(outfile_v + cad, img_v);
