@@ -81,6 +81,7 @@ def demo(yolo, vid_path):
     fps = 0.0
     i_frame = 0
     i_folder = 0
+    os.makedirs(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder))
     while True:
         ret, frame = video_capture.read()  # frame shape 640*480*3
         if ret != True:
@@ -157,11 +158,17 @@ def demo(yolo, vid_path):
         cv2.imshow('Tracking', frame)
         
         if i_frame == 20:
-            if not os.path.exists(os.path.join(ROOT_DIR, "%06d"%i_folder)):
-                os.makedirs(os.path.join(ROOT_DIR, "%06d"%i_folder))
-
+            i_folder += 1
+           # print(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder))
+            if not os.path.exists(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder)):
+                os.makedirs(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder))
+            i_frame=0
+            continue
+           
+       # print(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder + '/frame' + "%06d"%i_frame + '.jpg'))
         cv2.imwrite(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder + '/frame' + "%06d"%i_frame + '.jpg') , frame)
         i_frame += 1
+        
         if writeVideo_flag:
             # save a frame
             out.write(frame)
