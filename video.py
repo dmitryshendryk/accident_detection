@@ -67,7 +67,7 @@ def demo(yolo, vid_path):
 
     writeVideo_flag = False 
     
-    video_capture = cv2.VideoCapture('/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4')
+    video_capture = cv2.VideoCapture(os.path.join(ROOT_DIR, 'dataset/videos/YoutubeVid2.mp4'))
     # p = subprocess.check_output("./compute_flow --gpuID=1 --type=1 --skip=100 --vid_path=/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4 --out_path=/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output",
                     # shell=True)
     # p = Popen(['./compute_flow --gpuID=0 --type=1 --skip=10 --vid_path= /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4 --out_path=/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output'],
@@ -79,7 +79,8 @@ def demo(yolo, vid_path):
 
 
     fps = 0.0
-    count = 0
+    i_frame = 0
+    i_folder = 0
     while True:
         ret, frame = video_capture.read()  # frame shape 640*480*3
         if ret != True:
@@ -152,10 +153,15 @@ def demo(yolo, vid_path):
         # sub_results = p.decode("utf-8")
         # print("Result: {}".format(sub_results))
         # cv2.imshow("Optical flow", fplot.flowToColor(flow, 3.0))
-        print("t")
+
         cv2.imshow('Tracking', frame)
-        cv2.imwrite('/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_rgb/frame_' + str(count) + '.jpg', frame)
-        count += 1
+        
+        if i_frame == 20:
+            if not os.path.exists(os.path.join(ROOT_DIR, "%06d"%i_folder)):
+                os.makedirs(os.path.join(ROOT_DIR, "%06d"%i_folder))
+
+        cv2.imwrite(os.path.join(ROOT_DIR, 'dataset/output_rgb/' + "%06d"%i_folder + '/frame' + "%06d"%i_frame + '.jpg') , frame)
+        i_frame += 1
         if writeVideo_flag:
             # save a frame
             out.write(frame)
@@ -174,8 +180,6 @@ def demo(yolo, vid_path):
             break
 
     video_capture.release()
-    # rgb_frame_out.release()
-    # optical_frame_out.release()
     
     if writeVideo_flag:
         out.release()
