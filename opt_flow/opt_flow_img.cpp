@@ -238,7 +238,7 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
                     }
                 }
 
-                sprintf(cad, "/frame%06d.jpg", nframes);
+                sprintf(cad, "/frame%06d.jpg", i_frame);
 
                 if (i_frame == 20) 
                 {
@@ -251,15 +251,21 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
 
       		        bool folder_exists_u = QDir(sub_folder_u).exists();
                     bool folder_exists_v = QDir(sub_folder_v).exists();
-                    cout << sub_folder_u << "\n";
-                    cout << sub_folder_v << "\n";
-
+                    
                     if (folder_exists_u)
                         bool folder_created = QDir().mkpath(sub_folder_u);
                     if (folder_exists_v)
                         bool folder_created = QDir().mkpath(sub_folder_v);
-                    
-                    nframes = 0;
+                    i_frame = 0;
+
+                    outfile_u = sub_folder_u.toStdString();
+                    outfile_v = sub_folder_v.toStdString();
+                    cout << outfile_u << "\n";
+                    cout << outfile_v << "\n";
+                    continue;
+
+
+                    // nframes = 0;
                 }
 
                 imwrite(outfile_u + cad, img_u);
