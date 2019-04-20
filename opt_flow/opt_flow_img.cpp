@@ -245,16 +245,19 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
                     i_folder += 1;
                     
                     sprintf(buff, "/%06d", i_folder);
-                    // QString sub_folder_u = QString::fromStdString(out_path + "_x/");
-      		        bool folder_exists_u = QDir(outfile_u + buff).exists();
-                    bool folder_exists_v = QDir(outfile_v + buff).exists();
-                    cout << outfile_u + buff << "\n";
-                    cout << outfile_v + buff << "\n";
+
+                    QString sub_folder_u = QString::fromStdString(outfile_u + buff);
+                    QString sub_folder_v = QString::fromStdString(outfile_v + buff);
+
+      		        bool folder_exists_u = QDir(sub_folder_u).exists();
+                    bool folder_exists_v = QDir(sub_folder_v).exists();
+                    cout << sub_folder_u << "\n";
+                    cout << sub_folder_v << "\n";
 
                     if (folder_exists_u)
-                        bool folder_created = QDir().mkpath(outfile_u + buff);
+                        bool folder_created = QDir().mkpath(sub_folder_u);
                     if (folder_exists_v)
-                        bool folder_created = QDir().mkpath(outfile_v + buff);
+                        bool folder_created = QDir().mkpath(sub_folder_v);
                     
                     nframes = 0;
                 }
