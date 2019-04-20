@@ -77,6 +77,14 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
     i_frame = 0;
     i_folder = 0;
 
+    sprintf(buff, "%06d", i_folder);
+                    
+    QString sub_folder_u = QString::fromStdString(outfile_u + buff);
+    QString sub_folder_v = QString::fromStdString(outfile_v + buff);
+                   
+    res_folder_u = sub_folder_u.toStdString();
+    res_folder_v = sub_folder_v.toStdString();
+
         // cout << vid_path << endl;
 
         VideoCapture cap;
