@@ -17,7 +17,10 @@ RUN apt-get update && \
     unzip \
     yasm \
     pkg-config \
-    curl 
+    curl  \
+    qt5-default \
+    qtbase5-dev \
+    qttools5-dev 
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \

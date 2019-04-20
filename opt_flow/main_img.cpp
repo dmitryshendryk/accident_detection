@@ -1,5 +1,4 @@
 #include "opt_flow.hpp"
-#include "zmq_client.hpp"
 
 int main(int argc, char *argv[] )
 {

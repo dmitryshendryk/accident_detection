@@ -44,8 +44,6 @@ endif(COMMAND cmake_policy)
 
 find_package(Threads REQUIRED)
 
-# ZeroMq
-find_package(ZeroMQ  REQUIRED)
 
 option(WARP ON)
 if(WARP)
@@ -57,7 +55,6 @@ if(WARP)
 
     TARGET_LINK_LIBRARIES(
       compute_flow_si_warp
-      ${ZMQLIB}
       pthread
       ${OPENCV_LIBRARIES}
       ${OpenCV_LIBS}
@@ -68,13 +65,11 @@ else()
       compute_flow
       opt_flow_img.cpp
       main_img.cpp
-      zmq_client.cpp
       ${SRCS}
     )
 
     TARGET_LINK_LIBRARIES(
       compute_flow
-      ${ZeroMQ_LIBRARY}
       pthread
       ${OPENCV_LIBRARIES}
       ${OpenCV_LIBS}

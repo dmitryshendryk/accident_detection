@@ -26,8 +26,6 @@
 #include "opencv2/core/cuda.hpp"
 #include "opencv2/cudaoptflow.hpp"
 
-#include <zmq.hpp>
-#include "zmq_client.hpp"
 
 #include <dirent.h>
 
