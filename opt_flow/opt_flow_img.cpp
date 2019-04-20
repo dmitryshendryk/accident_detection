@@ -140,8 +140,12 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
 
         // outfile_u = out_folder_u.toStdString();
         // outfile_v = out_folder_v.toStdString();
-        outfile_u = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_u/";
-        outfile_v = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_v/";
+
+        QString outfile_u = QString::fromStdString(out_path + "u/");
+        QString outfile_v = QString::fromStdString(out_path + "v/");
+
+        // outfile_u = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_u/";
+        // outfile_v = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_v/";
         // outfile_flow  = out_folder_flow.toStdString();
         // cout << frame1.empty()  << endl;
         while (frame1.empty() == false)
