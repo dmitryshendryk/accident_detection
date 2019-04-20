@@ -72,7 +72,7 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
     Ptr<cuda::OpticalFlowDual_TVL1> alg_tvl1 = cuda::OpticalFlowDual_TVL1::create();
 
     int vidID = 0;
-    std::string video, outfile_v, outfile_flow, outfile_jpeg;
+    std::string video, outfile_u, outfile_v, outfile_flow, outfile_jpeg;
 
         // cout << vid_path << endl;
 
@@ -141,8 +141,10 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
         // outfile_u = out_folder_u.toStdString();
         // outfile_v = out_folder_v.toStdString();
 
-        QString outfile_u = QString::fromStdString(out_path + "u/");
-        QString outfile_v = QString::fromStdString(out_path + "v/");
+        QString out_u = QString::fromStdString(out_path + "u/");
+        QString out_v = QString::fromStdString(out_path + "v/");
+        outfile_u = out_u.toStdString();
+		outfile_v = out_v.toStdString();
 
         // outfile_u = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_u/";
         // outfile_v = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_v/";
