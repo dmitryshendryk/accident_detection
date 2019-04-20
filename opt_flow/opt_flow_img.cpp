@@ -77,13 +77,6 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
     i_frame = 0;
     i_folder = 0;
 
-    sprintf(buff, "%06d", i_folder);
-                    
-    QString sub_folder_u = QString::fromStdString(outfile_u + buff);
-    QString sub_folder_v = QString::fromStdString(outfile_v + buff);
-                   
-    res_folder_u = sub_folder_u.toStdString();
-    res_folder_v = sub_folder_v.toStdString();
 
         // cout << vid_path << endl;
 
@@ -156,6 +149,18 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
         QString out_v = QString::fromStdString(out_path + "/v/");
         outfile_u = out_u.toStdString();
 		outfile_v = out_v.toStdString();
+
+
+        sprintf(buff, "%06d", i_folder);
+                        
+        QString sub_folder_u = QString::fromStdString(outfile_u + buff);
+        QString sub_folder_v = QString::fromStdString(outfile_v + buff);
+                    
+        res_folder_u = sub_folder_u.toStdString();
+        res_folder_v = sub_folder_v.toStdString();
+
+        bool folder_created_u = QDir().mkpath(sub_folder_u);
+        bool folder_created_v = QDir().mkpath(sub_folder_v);
 
         // outfile_u = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_u/";
         // outfile_v = "/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output_v/";
@@ -249,7 +254,6 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
                     }
                 }
                 sprintf(cad, "/frame%06d.jpg", i_frame);
-                cout << i_frame << '\n';
                 if (i_frame == 20) 
                 {
                     i_folder++;
