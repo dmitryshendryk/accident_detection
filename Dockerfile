@@ -49,8 +49,7 @@ RUN pip3 --no-cache-dir install \
 # Install tensorflow and dependencies
 RUN pip3 --no-cache-dir install tensorflow-gpu==1.5.0 \
             keras==2.2.0 \ 
-            sklearn==0.20 \
-            scikit-image==0.19.2 
+            scikit-image==0.15.0 
             
 
 # Set the library path to use cuda and cupti
@@ -107,6 +106,7 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
        -DWITH_GDAL=ON \
        -DWITH_1394=OFF \
        -DWITH_FFMPEG=OFF \
+       -DPROTOBUF_UPDATE_FILES=ON \
        -DBUILD_PROTOBUF=OFF \
        -DBUILD_TESTS=OFF \
        -DBUILD_PERF_TESTS=OFF \

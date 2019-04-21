@@ -35,7 +35,7 @@ class DataSet():
         self.data_list = self.get_data_list()
 
         # Get the classes.
-        self.classes = ['Basketball', 'PlayingPiano']
+        self.classes = ['accident', 'no_accident']
 
         # Now do some minor data cleaning
         # self.data_list = self.clean_data_list()
