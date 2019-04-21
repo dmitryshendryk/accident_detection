@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
 
     args = parser.parse_args()
-    # '/home/dmitry/Documents/Projects/deep_sort_yolov3/dataset/YoutubeVid1.mp4'
+
     if args.command == 'demo':
         demo(YOLO(), args.vid_path)
     

@@ -41,7 +41,7 @@ def test_1epoch_fuse(
             )
     val_generator = data.validation_generator() # Get the validation generator
     steps = data.n_batch
-
+    print(data.classes)
     # Get the model.
     two_stream_fuse = ResearchModels(nb_classes=len(data.classes), n_snip=n_snip, opt_flow_len=opt_flow_len, image_shape=image_shape, saved_model=saved_model, saved_temporal_weights=saved_temporal_weights, saved_spatial_weights=saved_spatial_weights)
 

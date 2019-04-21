@@ -11,10 +11,11 @@ ROOT_DIR = os.path.abspath('../')
 sys.path.append(ROOT_DIR)
 
 from two_stream_network.fuse_validate_model import ResearchModels
-from two_stream_network.fuse_validate_data import DataSet
+from two_stream_network.fuse_predict_data import DataSet
 import time
 import os.path
 from os import makedirs
+import numpy as np 
 
 def test_1epoch_fuse(
             class_limit=None, 
@@ -39,15 +40,23 @@ def test_1epoch_fuse(
             opt_flow_len=opt_flow_len,
             batch_size=batch_size
             )
-    val_generator = data.validation_generator() # Get the validation generator
-    steps = data.n_batch
+    print(data.data_list)
+    idx = 0
+#     while 1:
+            
+    x_batch = data.prediction_iterator(idx)
+    idx += 1
+#     x_batch = np.array(x_batch)
+#     val_generator = data.validation_generator() # Get the validation generator
+#     steps = data.n_batch
 
     # Get the model.
     two_stream_fuse = ResearchModels(nb_classes=len(data.classes), n_snip=n_snip, opt_flow_len=opt_flow_len, image_shape=image_shape, saved_model=saved_model, saved_temporal_weights=saved_temporal_weights, saved_spatial_weights=saved_spatial_weights)
 
     print(two_stream_fuse.model.summary())
     # Evaluate!
-    two_stream_fuse.model.fit_generator(generator=val_generator, steps_per_epoch=steps, max_queue_size=1)
+    predictions = two_stream_fuse.model.predict(x_batch)
+    print(predictions)
 
 def fuse_prediction(saved_spatial_weights,saved_temporal_weights):
     """These are the main training settings. Set each before running
@@ -60,7 +69,7 @@ def fuse_prediction(saved_spatial_weights,saved_temporal_weights):
     opt_flow_len = 10 # number of optical flow frames used
     image_shape=(224, 224)
     original_image_shape=(341, 256)
-    batch_size = 10
+    batch_size = 1
     fuse_method = 'average'
     "=============================================================================="
 
@@ -78,6 +87,6 @@ def fuse_prediction(saved_spatial_weights,saved_temporal_weights):
 
 
 
-def prediction_iterator(n_snip):
+# def prediction_iterator(n_snip):
 
-  pass 
+#   pass 

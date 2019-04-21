@@ -27,8 +27,8 @@ from scipy import misc
 ROOT_DIR = os.path.abspath('./')
 sys.path.append(ROOT_DIR)
 
-import flowfilter.plot as fplot
-import flowfilter.gpu.flowfilters as gpufilter
+# import flowfilter.plot as fplot
+# import flowfilter.gpu.flowfilters as gpufilter
 
 from subprocess import Popen, PIPE 
 import subprocess
@@ -159,12 +159,12 @@ def demo(yolo, vid_path):
         
         if i_frame == 20:
             i_folder += 1
-            if not os.path.exists(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%06d"%i_folder)):
-                os.makedirs(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%06d"%i_folder))
+            if not os.path.exists(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%05d"%i_folder)):
+                os.makedirs(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%05d"%i_folder))
             i_frame=0
             continue
            
-        cv2.imwrite(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%06d"%i_folder + '/frame' + "%06d"%i_frame + '.jpg') , frame)
+        cv2.imwrite(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%05d"%i_folder + '/' + "%05d"%i_frame + '.jpg') , frame)
         i_frame += 1
         
         if writeVideo_flag:
