@@ -96,8 +96,9 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
        -DENABLE_PRECOMPILED_HEADERS=OFF \
        -DWITH_OPENGL=OFF \
        -DWITH_OPENCL=OFF \
-       -DWITH_QT=OFF \
+       -DWITH_QT=ON \
        -DWITH_IPP=ON \
+       -DWITH_GTK=OFF \
        -DWITH_TBB=ON \
        -DFORCE_VTK=ON \
        -DWITH_EIGEN=ON \
@@ -106,8 +107,6 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
        -DWITH_GDAL=ON \
        -DWITH_1394=OFF \
        -DWITH_FFMPEG=OFF \
-       -DPROTOBUF_UPDATE_FILES=ON \
-       -DBUILD_PROTOBUF=OFF \
        -DBUILD_TESTS=OFF \
        -DBUILD_PERF_TESTS=OFF \
        -DCMAKE_BUILD_TYPE=RELEASE \
