@@ -1,6 +1,8 @@
 FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
 MAINTAINER Dmitry
 
+ADD . /accident_detection
+
 ###########################
 ### TENSORFLOW INSTALL  ###
 ###########################
@@ -67,7 +69,6 @@ ARG OPENCV_VERSION=3.4.1
 
 # RUN mkdir -p $OPENCV_INSTALL_PATH; exit 0
 
-WORKDIR /
 
 ## Single command to reduce image size
 ## Build opencv
