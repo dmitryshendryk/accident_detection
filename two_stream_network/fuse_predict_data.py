@@ -26,14 +26,14 @@ class DataSet():
         self.opt_flow_len = opt_flow_len
         self.batch_size = batch_size
 
-        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/validate/rgb')
-        self.opt_flow_path = os.path.join(ROOT_DIR + '/dataset', 'validate')
+        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/output/rgb')
+        self.opt_flow_path = os.path.join(ROOT_DIR + '/dataset', 'output')
 
         # Get the data.
         self.data_list = self.get_data_list()
 
         # Get the classes.
-        self.classes = ['accident', 'no_accident']
+        self.classes = ['Basketball', 'PlayingPiano']
 
         # Now do some minor data cleaning
         # self.data_list = self.clean_data_list()
