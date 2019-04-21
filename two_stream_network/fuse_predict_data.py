@@ -28,8 +28,8 @@ class DataSet():
         self.opt_flow_len = opt_flow_len
         self.batch_size = batch_size
 
-        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/output_test/rgb')
-        self.opt_flow_path = os.path.join(ROOT_DIR + '/dataset', 'output_test')
+        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/output/rgb')
+        self.opt_flow_path = os.path.join(ROOT_DIR + '/dataset', 'output')
 
         # Get the data.
         self.data_list = self.get_data_list()
@@ -50,7 +50,7 @@ class DataSet():
     @staticmethod
     def get_data_list():
         """Load our data list from file."""
-        list_data = os.listdir(ROOT_DIR + '/dataset/output_test/rgb')
+        list_data = os.listdir(ROOT_DIR + '/dataset/output/rgb')
         # with open(os.path.join(ROOT_DIR + '/dataset', 'data_list_1.csv'), 'r') as fin:
         #     reader = csv.reader(fin)
         #     data_list = list(reader)
@@ -60,9 +60,9 @@ class DataSet():
     def clean_data_list(self):
         for folder_name in self.data_list[:self.batch_size]:
             print("delete folder {}".format(folder_name))
-            shutil.rmtree(ROOT_DIR + '/dataset/output_test/rgb/' + folder_name, ignore_errors=True)
-            shutil.rmtree(ROOT_DIR + '/dataset/output_test/v/' + folder_name, ignore_errors=True)
-            shutil.rmtree(ROOT_DIR + '/dataset/output_test/u/' + folder_name, ignore_errors=True)
+            shutil.rmtree(ROOT_DIR + '/dataset/output/rgb/' + folder_name, ignore_errors=True)
+            shutil.rmtree(ROOT_DIR + '/dataset/output/v/' + folder_name, ignore_errors=True)
+            shutil.rmtree(ROOT_DIR + '/dataset/output/u/' + folder_name, ignore_errors=True)
         self.data_list = []
 
 
