@@ -9,6 +9,8 @@ import threading
 from keras.utils import to_categorical
 import cv2
 import os 
+import shutil
+
 
 ROOT_DIR = os.path.abspath('./')
 
@@ -26,8 +28,8 @@ class DataSet():
         self.opt_flow_len = opt_flow_len
         self.batch_size = batch_size
 
-        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/output/rgb')
-        self.opt_flow_path = os.path.join(ROOT_DIR + '/dataset', 'output')
+        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/output_test/rgb')
+        self.opt_flow_path = os.path.join(ROOT_DIR + '/dataset', 'output_test')
 
         # Get the data.
         self.data_list = self.get_data_list()
@@ -48,20 +50,21 @@ class DataSet():
     @staticmethod
     def get_data_list():
         """Load our data list from file."""
-        list_data = os.listdir(ROOT_DIR + '/dataset/output/rgb')
+        list_data = os.listdir(ROOT_DIR + '/dataset/output_test/rgb')
         # with open(os.path.join(ROOT_DIR + '/dataset', 'data_list_1.csv'), 'r') as fin:
         #     reader = csv.reader(fin)
         #     data_list = list(reader)
 
         return list_data
 
-    # def clean_data_list(self):
-    #     data_list_clean = []
-    #     for item in self.data_list:
-    #         if item[1] in self.classes:
-    #             data_list_clean.append(item)
+    def clean_data_list(self):
+        for folder_name in self.data_list[:self.batch_size]:
+            print("delete folder {}".format(folder_name))
+            shutil.rmtree(ROOT_DIR + '/dataset/output_test/rgb/' + folder_name, ignore_errors=True)
+            shutil.rmtree(ROOT_DIR + '/dataset/output_test/v/' + folder_name, ignore_errors=True)
+            shutil.rmtree(ROOT_DIR + '/dataset/output_test/u/' + folder_name, ignore_errors=True)
+        self.data_list = []
 
-    #     return data_list_clean
 
     # def get_classes(self):
     #     """Extract the classes from our data, '\n'. If we want to limit them,
