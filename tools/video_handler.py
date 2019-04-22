@@ -51,9 +51,9 @@ class VideoStream:
 		self.stream.release()
 
 
-# if __name__ == "__main__":
-#     stream = VideoStream("rtsp://admin:12345abc@92.14.11.106:554/Streaming/Channels/1")
-#     while 1:
-#         image = stream.read()
-#         cv2.imshow('frame', image)
-#         cv2.waitKey(0)
+if __name__ == "__main__":
+    stream = VideoStream("rtsp://admin:12345abc@92.14.11.106:554/Streaming/Channels/1")
+    while 1:
+        image = stream.read()
+        cv2.imshow('frame', image)
+        cv2.waitKey(0)

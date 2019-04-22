@@ -62,10 +62,6 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
     cv::cuda::setDevice(gpuID);
     Mat capture_frame, capture_image, prev_image, capture_gray, prev_gray, human_mask;
 
-    // cv::cuda::printShortCudaDeviceInfo(cv::cuda::getDevice());
-    /////// zmq client 
-
-    //////////////
 
     Ptr<cuda::BroxOpticalFlow> dflow = cuda::BroxOpticalFlow::create(alpha_, gamma_, scale_factor_, inner_iterations_, outer_iterations_, solver_iterations_);
 
@@ -78,13 +74,13 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
     i_folder = 0;
 
 
-        // cout << vid_path << endl;
 
         VideoCapture cap;
         try
         {  
             // cap.open("/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4");
-            cap.open("rtsp://admin:1234qwer@80.254.102.208:65506/Streaming/Channels/2");
+            // cap.open("rtsp://admin:12345abc@92.14.11.106:554/Streaming/Channels/2");
+            cap.open(vid_path)
         }
         catch (std::exception &e)
         {
@@ -287,27 +283,7 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
                 imwrite(res_folder_u + cad, img_u);
                 imwrite(res_folder_v + cad, img_v);
                 i_frame++;
-                // ct1->pImg_V = img_v;
-                // ct1->pImg_U = img_u;
-                // *pImg_V = img_v;
-                
-                // std::cout << pImg_V->rows << std::endl;
-               
- 
 
-                // cout << img_u.rows << endl;
-                // cout << img_u.channels() << endl;
-
-                
-                //imwrite(outfile_flow+cad, optflow);
-
-                if (bins == true)
-                {
-                    //  fwrite(&min_u_f,sizeof(float),1,fx);
-                    // fwrite(&max_u_f,sizeof(float),1,fx);
-                    // fwrite(&min_v_f,sizeof(float),1,fx);
-                    // fwrite(&max_v_f,sizeof(float),1,fx);
-                }
             }
 
             sprintf(cad, "/my_frames_frame%06d.jpg", nframes + 1);
@@ -362,8 +338,7 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
         }
         if (bins == true)
         {
-            //            fclose(fx);
+           
         }
-    // }
 }
 }
