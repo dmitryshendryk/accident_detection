@@ -59,9 +59,9 @@ def demo(yolo, vid_path):
     writeVideo_flag = False 
     
     # video_capture = cv2.VideoCapture(os.path.join(ROOT_DIR, 'dataset/videos/YoutubeVid2.mp4'))
-    # video_capture = VideoStream(os.path.join(ROOT_DIR, 'dataset/videos/YoutubeVid2.mp4'))
+    video_capture = VideoStream(os.path.join(ROOT_DIR, 'dataset/videos/YoutubeVid2.mp4'))
 
-    video_capture = VideoStream(vid_path)
+    # video_capture = VideoStream(vid_path)
     fps = 0.0
     i_frame = 0
     i_folder = 0
