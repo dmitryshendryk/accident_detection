@@ -12,7 +12,6 @@ from two_stream_network.fuse_predict import fuse_prediction
 import os 
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-"0"
 
 if __name__ == '__main__':
 
@@ -29,7 +28,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.command == 'demo':
+    if args.command == 'video':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         demo(YOLO(), args.vid_path)
     

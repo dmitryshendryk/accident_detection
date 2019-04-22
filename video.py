@@ -35,8 +35,7 @@ from subprocess import Popen, PIPE
 import subprocess
 from threading import Thread
 from queue import Queue, Empty
-from tools.server_zmq import ServerTask
-
+from tools.video_handler import VideoStream
 
 def enqueue_output(out, queue):
     for line in iter(out.readline, b''):
@@ -69,7 +68,7 @@ def demo(yolo, vid_path):
     writeVideo_flag = False 
     
   #  video_capture = cv2.VideoCapture(os.path.join(ROOT_DIR, 'dataset/videos/YoutubeVid2.mp4'))
-    video_capture = cv2.VideoCapture("rtsp://admin:12345abc@92.14.11.106:554/Streaming/Channels/1")   
+    video_capture = VideoStream("rtsp://admin:12345abc@92.14.11.106:554/Streaming/Channels/1")   
  # p = subprocess.check_output("./compute_flow --gpuID=1 --type=1 --skip=100 --vid_path=/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4 --out_path=/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output",
                     # shell=True)
     # p = Popen(['./compute_flow --gpuID=0 --type=1 --skip=10 --vid_path= /home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4 --out_path=/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/output'],
@@ -79,16 +78,15 @@ def demo(yolo, vid_path):
     # t.daemon = True
     # t.start()
 
-    video_capture.set(cv2.CAP_PROP_FPS, 1)
 
     fps = 0.0
     i_frame = 0
     i_folder = 0
     os.makedirs(os.path.join(ROOT_DIR, 'dataset/output/rgb/' + "%06d"%i_folder))
     while True:
-        ret, frame = video_capture.read()  # frame shape 640*480*3
-        if ret != True:
-            break
+        frame = video_capture.read()  # frame shape 640*480*3
+        # if ret != True:
+            # break
         t1 = time.time()
         frame_flow = frame.copy()
 
