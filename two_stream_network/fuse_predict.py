@@ -56,7 +56,7 @@ def test_1epoch_fuse(
 
         data.clean_data_list()
         data.data_list = data.get_data_list()
-        time.sleep(5)
+        time.sleep(10)
 
 def fuse_prediction(saved_spatial_weights,saved_temporal_weights):
     saved_spatial_weights = saved_spatial_weights

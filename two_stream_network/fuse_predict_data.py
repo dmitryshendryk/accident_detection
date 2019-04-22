@@ -55,7 +55,7 @@ class DataSet():
         #     reader = csv.reader(fin)
         #     data_list = list(reader)
 
-        return list_data
+        return sorted(list_data)
 
     def clean_data_list(self):
         for folder_name in self.data_list[:self.batch_size]:

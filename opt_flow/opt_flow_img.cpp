@@ -83,8 +83,8 @@ int OpticalFlow::compute_Flow(int start_with_vid, int gpuID, int type, int frame
         VideoCapture cap;
         try
         {  
-            cap.open("/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4");
-            
+            // cap.open("/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/dataset/videos/YoutubeVid2.mp4");
+            cap.open("rtsp://admin:1234qwer@80.254.102.208:65506/Streaming/Channels/2");
         }
         catch (std::exception &e)
         {
