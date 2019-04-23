@@ -25,6 +25,7 @@ proc_c = subprocess.Popen(["stdbuf", "-o0", 'python', 'main.py', 'predict', '--d
     stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
+
 pa_q = queue.Queue()
 pb_q = queue.Queue()
 pc_q = queue.Queue()

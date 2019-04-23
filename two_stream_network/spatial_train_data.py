@@ -93,14 +93,14 @@ def get_generators(data, image_shape=(224, 224), batch_size=32):
     test_datagen = ImageDataGenerator(rescale=1./255)
 
     train_generator = train_datagen.flow_from_directory(
-            os.path.join(ROOT_DIR + '/dataset', 'train'),
+            os.path.join(ROOT_DIR + '/dataset/acc_train_data', 'train'),
             target_size=image_shape,
             batch_size=batch_size,
             classes=data.classes,
             class_mode='categorical')
 
     validation_generator = test_datagen.flow_from_directory(
-            os.path.join(ROOT_DIR + '/dataset', 'test'),
+            os.path.join(ROOT_DIR + '/dataset/acc_train_data', 'test'),
             target_size=image_shape,
             batch_size=batch_size,
             classes=data.classes,

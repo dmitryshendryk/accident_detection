@@ -63,8 +63,8 @@ if(WARP)
 else()
     ADD_EXECUTABLE(
       compute_flow
-      opt_flow_img.cpp
-      main_img.cpp
+      opt_flow.cpp
+      main.cpp
       ${SRCS}
     )
 

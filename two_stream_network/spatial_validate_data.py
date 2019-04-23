@@ -28,8 +28,8 @@ class DataSet():
         self.opt_flow_len = opt_flow_len
         self.batch_size = batch_size
 
-        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset', 'test')
-        self.opt_flow_path = os.path.join(ROOT_DIR +'/dataset', 'opt_flow')
+        self.static_frame_path = os.path.join(ROOT_DIR + '/dataset/acc_train_data', 'train')
+        self.opt_flow_path = os.path.join(ROOT_DIR +'/dataset/acc_train_data', 'opt_flow')
 
         # Get the data.
         self.data_list = self.get_data_list()

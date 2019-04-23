@@ -8,6 +8,7 @@ from two_stream_network.spatial_validate import spatial_validate
 from two_stream_network.fuse_validate import fuse_train
 from two_stream_network.temporal_validate import validate_temporal
 from two_stream_network.fuse_predict import fuse_prediction
+from tools.utils import create_csv
 
 import os 
 
@@ -24,6 +25,7 @@ if __name__ == '__main__':
     parser.add_argument('--temporal')
     parser.add_argument('--vid_path')
     parser.add_argument('--device')
+    parser.add_argument('--train_path')
 
 
     args = parser.parse_args()
@@ -48,6 +50,9 @@ if __name__ == '__main__':
     if args.command == 'train_fuse':
         fuse_train(args.spatial, args.temporal)
     
+    if args.command == 'create_csv':
+        create_csv(args.train_path)
+
     if args.command == 'predict':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         fuse_prediction(args.spatial, args.temporal)

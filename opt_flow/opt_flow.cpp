@@ -333,7 +333,7 @@ namespace pre_process
 
 					imwrite(outfile_u+cad,img_u);
 					imwrite(outfile_v+cad,img_v);
-					//imwrite(outfile_flow+cad, optflow);
+					imwrite(outfile_flow+cad, frame1_rgb_);
 
 					if (bins == true){
 						fwrite(&min_u_f,sizeof(float),1,fx);
