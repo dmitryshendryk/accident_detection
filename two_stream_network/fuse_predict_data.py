@@ -35,7 +35,7 @@ class DataSet():
         self.data_list = self.get_data_list()
 
         # Get the classes.
-        self.classes = ['accident', 'no_accident']
+        self.classes = ['accident', 'no_accident', 'hello']
 
         # Now do some minor data cleaning
         # self.data_list = self.clean_data_list()
@@ -54,7 +54,7 @@ class DataSet():
         # with open(os.path.join(ROOT_DIR + '/dataset', 'data_list_1.csv'), 'r') as fin:
         #     reader = csv.reader(fin)
         #     data_list = list(reader)
-
+        print(list_data)
         return sorted(list_data)
 
     def clean_data_list(self):

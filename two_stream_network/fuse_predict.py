@@ -66,7 +66,7 @@ def fuse_prediction(saved_spatial_weights,saved_temporal_weights):
     opt_flow_len = 10 # number of optical flow frames used
     image_shape=(224, 224)
     original_image_shape=(341, 256)
-    batch_size = 2
+    batch_size = 1
     fuse_method = 'average'
 
     test_1epoch_fuse(
