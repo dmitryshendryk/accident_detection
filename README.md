@@ -55,3 +55,12 @@ ptyhon main.py validate_temporal --temporal=</path/to/weights>
 ```
 python main.py predict --spatial=</path/to/weigths> --temporal=</path/to/weights> 
 ```
+
+## Run on the video 
+
+```
+python main.py predict_local --vid_path=</path/to/video> 
+--spatial=</path/to/model> 
+--temporal=</path/to/model> 
+
+```
