@@ -44,7 +44,7 @@ class DataSet():
         self.class_limit = class_limit
         self.image_shape = image_shape
         self.original_image_shape = original_image_shape
-        self.opt_flow_path = os.path.join('/dataset', 'opt_flow')
+        self.opt_flow_path = os.path.join('/dataset/acc_train_data', 'opt_flow')
 
         # Get the data.
         self.data_list = self.get_data_list()

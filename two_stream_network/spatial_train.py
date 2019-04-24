@@ -91,14 +91,14 @@ def train(num_of_snip=5, saved_weights=None,
         print("Loading network from ImageNet weights.")
         print("Get and train the top layers...")
         model = freeze_all_but_top(model)
-        model = train_model(model, 10, generators)
+        model = train_model(model, 20, generators)
     else:
         print("Loading saved model: %s." % saved_weights)
         model.load_weights(saved_weights)
 
     print("Get and train the mid layers...")
     model = freeze_all_but_mid_and_top(model)
-    model = train_model(model, 10, generators, [tb, early_stopper, csv_logger, checkpointer])
+    model = train_model(model, 20, generators, [tb, early_stopper, csv_logger, checkpointer])
 
 def train_spatial():
     """These are the main training settings. Set each before running

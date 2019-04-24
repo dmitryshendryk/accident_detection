@@ -1,7 +1,7 @@
 """
 Train our temporal-stream CNN on optical flow frames.
 """
-from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger, LearningRateScheduler
+from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, CSVLogger, LearningRateScheduler, ReduceLROnPlateau
 import os 
 import sys 
 
@@ -65,6 +65,11 @@ def train(num_of_snip=5, opt_flow_len=10, saved_model=None,
 
     # Learning rate schedule.
     lr_schedule = LearningRateScheduler(fixed_schedule, verbose=1)
+    lr_reduce = ReduceLROnPlateau(monitor='val_acc',
+                                    patience=20,
+                                    verbose=1,
+                                    factor=0.5,
+                                    min_lr=0)
 
     print("class_limit = ", class_limit)
     # Get the data and process it.
@@ -134,7 +139,7 @@ def train_temporal():
     opt_flow_len = 10 # number of optical flow frames used
     image_shape=(224, 224)
     load_to_memory = False  # pre-load the sequences into memory
-    batch_size = 64
+    batch_size = 32
     nb_epoch = 2222
     name_str = None
     "=============================================================================="
