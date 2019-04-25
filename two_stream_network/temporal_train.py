@@ -28,7 +28,7 @@ def fixed_schedule(epoch):
 
 def train(num_of_snip=5, opt_flow_len=10, saved_model=None,
         class_limit=None, image_shape=(224, 224),
-        load_to_memory=False, batch_size=32, nb_epoch=100, name_str=None):
+        load_to_memory=False, batch_size=32, nb_epoch=100, name_str=None, dataset_path=None):
 
     # Get local time.
     time_str = time.strftime("%y%m%d%H%M", time.localtime())
@@ -77,7 +77,8 @@ def train(num_of_snip=5, opt_flow_len=10, saved_model=None,
         data = DataSet(
                 num_of_snip=num_of_snip,
                 opt_flow_len=opt_flow_len,
-                class_limit=class_limit
+                class_limit=class_limit,
+                dataset_path=dataset_path
                 )
     else:
         data = DataSet(
@@ -85,6 +86,7 @@ def train(num_of_snip=5, opt_flow_len=10, saved_model=None,
                 opt_flow_len=opt_flow_len,
                 image_shape=image_shape,
                 class_limit=class_limit,
+                dataset_path=dataset_path
                 )
 
     # Get samples per epoch.
@@ -129,14 +131,14 @@ def train(num_of_snip=5, opt_flow_len=10, saved_model=None,
                 workers=1,
                 use_multiprocessing=False)
 
-def train_temporal():
+def train_temporal(dataset_path):
     """These are the main training settings. Set each before running
     this file."""
     "=============================================================================="
     saved_model = None
     class_limit = None  # int, can be 1-101 or None
     num_of_snip = 1 # number of chunks used for each video
-    opt_flow_len = 10 # number of optical flow frames used
+    opt_flow_len = 13 # number of optical flow frames used
     image_shape=(224, 224)
     load_to_memory = False  # pre-load the sequences into memory
     batch_size = 32
@@ -147,6 +149,6 @@ def train_temporal():
     train(num_of_snip=num_of_snip, opt_flow_len=opt_flow_len, saved_model=saved_model,
             class_limit=class_limit, image_shape=image_shape,
             load_to_memory=load_to_memory, batch_size=batch_size,
-            nb_epoch=nb_epoch, name_str=name_str)
+            nb_epoch=nb_epoch, name_str=name_str, dataset_path=dataset_path)
 
 

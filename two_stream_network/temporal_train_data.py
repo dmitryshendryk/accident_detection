@@ -33,7 +33,7 @@ def threadsafe_generator(func):
     return gen
 
 class DataSet():
-    def __init__(self, num_of_snip=1, opt_flow_len=10, image_shape=(224, 224), original_image_shape=(341, 256), class_limit=None):
+    def __init__(self, num_of_snip=1, opt_flow_len=10, image_shape=(224, 224), original_image_shape=(341, 256), class_limit=None, dataset_path=None):
         """Constructor.
         opt_flow_len = (int) the number of optical flow frames to consider
         class_limit = (int) number of classes to limit the data to.
@@ -44,7 +44,7 @@ class DataSet():
         self.class_limit = class_limit
         self.image_shape = image_shape
         self.original_image_shape = original_image_shape
-        self.opt_flow_path = os.path.join('/dataset/acc_train_data', 'opt_flow')
+        self.opt_flow_path = os.path.join('/dataset/' + dataset_path, 'opt_flow')
 
         # Get the data.
         self.data_list = self.get_data_list()
@@ -203,6 +203,7 @@ class DataSet():
             # horizontal components
             img = None # reset to be safe
             img = cv2.imread(opt_flow_dir_x + '/frame' + "%06d"%(i_frame) + '.jpg', 0)
+            # print((opt_flow_dir_x + '/frame' + "%06d"%(i_frame) + '.jpg'))
             #print(opt_flow_dir_x + '/frame' + "%06d"%(i_frame) + '.jpg')
             img = np.array(img)
             # mean substraction 

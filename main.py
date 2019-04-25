@@ -108,6 +108,7 @@ if __name__ == '__main__':
     parser.add_argument('--vid_path')
     parser.add_argument('--device')
     parser.add_argument('--train_path')
+    parser.add_argument('--dataset_path')
 
 
     args = parser.parse_args()
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     
 
     if args.command == 'train_spatial':
-        train_spatial()
+        train_spatial(args.dataset_path)
     
     if args.command == 'validate_spatial':
         spatial_validate(args.spatial, 2)
@@ -127,7 +128,7 @@ if __name__ == '__main__':
         validate_temporal(args.temporal, 2)
     
     if args.command == 'train_temporal':
-        train_temporal() 
+        train_temporal(args.dataset_path) 
     
     if args.command == 'train_fuse':
         fuse_train(args.spatial, args.temporal)

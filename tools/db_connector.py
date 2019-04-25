@@ -14,14 +14,15 @@ class DBReader():
 
         #connect to database
         self.connection = None
-        while True:
-            try:
-                print(self.config.connecting_string)
-                self.connection = pyodbc.connect(self.config.connecting_string)
-                break
-            except:
-                print("LOG: could not connect to db, retrying...")
-                time.sleep(10)
+        self.connection = pyodbc.connect(self.config.connecting_string)
+        # while True:
+        #     try:
+        #         print(self.config.connecting_string)
+        #         self.connection = pyodbc.connect(self.config.connecting_string)
+        #         break
+        #     except:
+        #         print("LOG: could not connect to db, retrying...")
+        #         time.sleep(10)
 
 
 
@@ -219,3 +220,4 @@ class DBReader():
 
 if __name__ == "__main__":
     db = DBReader()
+    db.query_cameras()
