@@ -1,4 +1,3 @@
-# FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
 FROM  tensorflow/tensorflow:1.13.1-gpu-py3
 MAINTAINER Dmitry
 
@@ -54,7 +53,8 @@ RUN pip3 --no-cache-dir install \
     scikit-learn \ 
     matplotlib \
     pandas \
-    IPython
+    IPython \ 
+    numpy 
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
