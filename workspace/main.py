@@ -606,22 +606,22 @@ def detection(model, image_path=None, video_path=None):
     # Image or video?
     if video_path:
 
-        cap = cv2.VideoCapture(video_path)
+        # cap = cv2.VideoCapture(video_path)
 
         while True:
-            ref, image = cap.read()
-            if ref is None:
-                continue
+            # ref, image = cap.read()
+            # if ref is None:
+            #     continue
             r = model.detect([image], verbose=1)[0]
 
             print(r['rois'])
-            if (len(r['rois']) != 0):
-                image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
+            # if (len(r['rois']) != 0):
+            #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
             
-            cv2.imshow('frame', image)
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                cv2.destroyAllWindows()
-                break
+            # cv2.imshow('frame', image)
+            # if cv2.waitKey(25) & 0xFF == ord('q'):
+            #     cv2.destroyAllWindows()
+            #     break
             # visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
             #                     class_names, r['scores'], figsize=(3,3), show_mask=False)
 
