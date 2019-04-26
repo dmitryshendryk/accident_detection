@@ -53,5 +53,6 @@ ptyhon main.py validate_temporal --temporal=</path/to/weights>
 5. Start prediction
 
 ```
-python main.py predict --spatial=</path/to/weigths> --temporal=</path/to/weights> 
+cd workspace
+python main.py detect --weights='<path to the weights in weights dir>' --dataset='<path to the video>'
 ```
