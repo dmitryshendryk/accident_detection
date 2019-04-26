@@ -15,7 +15,7 @@ ROOT_DIR = os.path.abspath('./')
 
 
 class DataSet():
-    def __init__(self, num_of_snip=5, opt_flow_len=10, image_shape=(224, 224), class_limit=None):
+    def __init__(self, num_of_snip=5, opt_flow_len=10, image_shape=(224, 224), class_limit=None, dataset_path=None):
         """Constructor.
         opt_flow_len = (int) the number of optical flow frames to consider
         class_limit = (int) number of classes to limit the data to.
@@ -34,6 +34,7 @@ class DataSet():
 
         # Now do some minor data cleaning
         self.data_list = self.clean_data_list()
+        self.dataset_path = dataset_path
 
     @staticmethod
     def get_data_list():
@@ -64,6 +65,7 @@ class DataSet():
         classes = sorted(classes)
 
         # Return.
+        print("Trained classes: {}".format(classes))
         if self.class_limit is not None:
             return classes[:self.class_limit]
         else:
@@ -81,7 +83,7 @@ class DataSet():
 
         return label_hot
 
-def get_generators(data, image_shape=(224, 224), batch_size=32):
+def get_generators(data, image_shape=(224, 224), batch_size=32, dataset_path=None):
     train_datagen = ImageDataGenerator(
             rescale=1./255,
             shear_range=0.2,
@@ -93,14 +95,14 @@ def get_generators(data, image_shape=(224, 224), batch_size=32):
     test_datagen = ImageDataGenerator(rescale=1./255)
 
     train_generator = train_datagen.flow_from_directory(
-            os.path.join(ROOT_DIR + '/dataset/acc_train_data', 'train'),
+            os.path.join(ROOT_DIR + '/dataset/' + dataset_path, 'train'),
             target_size=image_shape,
             batch_size=batch_size,
             classes=data.classes,
             class_mode='categorical')
 
     validation_generator = test_datagen.flow_from_directory(
-            os.path.join(ROOT_DIR + '/dataset/acc_train_data', 'test'),
+            os.path.join(ROOT_DIR + '/dataset/' + dataset_path, 'test'),
             target_size=image_shape,
             batch_size=batch_size,
             classes=data.classes,

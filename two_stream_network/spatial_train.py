@@ -35,7 +35,7 @@ def train_model(model, nb_epoch, generators, callbacks=[]):
 
 def train(num_of_snip=5, saved_weights=None,
         class_limit=None, image_shape=(224, 224),
-        load_to_memory=False, batch_size=32, nb_epoch=100, name_str=None):
+        load_to_memory=False, batch_size=32, nb_epoch=100, name_str=None, dataset_path=None):
 
     # Get local time.
     time_str = time.strftime("%y%m%d%H%M", time.localtime())
@@ -73,16 +73,18 @@ def train(num_of_snip=5, saved_weights=None,
 
     if image_shape is None:
         data = DataSet(
-                class_limit=class_limit
+                class_limit=class_limit,
+                dataset_path = dataset_path
                 )
     else:
         data = DataSet(
                 image_shape=image_shape,
-                class_limit=class_limit
+                class_limit=class_limit,
+                dataset_path = dataset_path
                 )
     
     # Get generators.
-    generators = get_generators(data=data, image_shape=image_shape, batch_size=batch_size)
+    generators = get_generators(data=data, image_shape=image_shape, batch_size=batch_size, dataset_path=data.dataset_path)
 
     # Get the model.
     model = get_model(data=data)
@@ -100,7 +102,7 @@ def train(num_of_snip=5, saved_weights=None,
     model = freeze_all_but_mid_and_top(model)
     model = train_model(model, 20, generators, [tb, early_stopper, csv_logger, checkpointer])
 
-def train_spatial():
+def train_spatial(dataset_path):
     """These are the main training settings. Set each before running
     this file."""
     "=============================================================================="
@@ -117,5 +119,5 @@ def train_spatial():
     train(num_of_snip=num_of_snip, saved_weights=saved_weights,
             class_limit=class_limit, image_shape=image_shape,
             load_to_memory=load_to_memory, batch_size=batch_size,
-            nb_epoch=nb_epoch, name_str=name_str)
+            nb_epoch=nb_epoch, name_str=name_str, dataset_path=dataset_path)
 
