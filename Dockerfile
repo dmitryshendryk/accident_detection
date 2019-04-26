@@ -47,14 +47,7 @@ RUN pip3 --no-cache-dir install \
     h5py \
     scipy \
     py3nvml \
-    scikit-image
-
-RUN        pip3 install --upgrade \
-    pypika \
-    argparse \
-    pyodbc \
-    requests \
-    opencv-contrib-python \
+    scikit-image \ 
     opencv-python
 
 # Install tensorflow and dependencies
