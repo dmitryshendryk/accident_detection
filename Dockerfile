@@ -50,7 +50,11 @@ RUN pip3 --no-cache-dir install \
     py3nvml \ 
     keras==2.2.0 \ 
     scikit-image==0.15.0 \
-    opencv-python
+    opencv-python \
+    scikit-learn \ 
+    matplotlib \
+    pandas \
+    IPython
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
