@@ -607,15 +607,15 @@ def detection(model, image_path=None, video_path=None):
     # Image or video?
     if video_path:
 
-        # cap = cv2.VideoCapture(video_path)
+        cap = cv2.VideoCapture(video_path)
 
         while True:
-            # ref, image = cap.read()
-            # if ref is None:
-            #     continue
+            ref, image = cap.read()
+            if ref is None:
+                continue
             r = model.detect([image], verbose=1)[0]
 
-            print(r['rois'])
+            print(r)
             # if (len(r['rois']) != 0):
             #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
             
