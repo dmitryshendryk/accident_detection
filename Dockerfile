@@ -1,4 +1,4 @@
-FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
+FROM tensorflow/tensorflow:1.13.1-gpu-py3
 MAINTAINER Dmitry
 
 ADD . /accident_detection
@@ -46,7 +46,16 @@ RUN pip3 --no-cache-dir install \
     hdf5storage \
     h5py \
     scipy \
-    py3nvml
+    py3nvml \
+    scikit-image
+
+RUN        pip3 install --upgrade \
+    pypika \
+    argparse \
+    pyodbc \
+    requests \
+    opencv-contrib-python \
+    opencv-python
 
 # Install tensorflow and dependencies
 RUN pip3 --no-cache-dir install tensorflow-gpu==1.5.0 \
@@ -69,57 +78,6 @@ ARG OPENCV_VERSION=3.4.1
 
 # RUN mkdir -p $OPENCV_INSTALL_PATH; exit 0
 
-
-## Single command to reduce image size
-## Build opencv
-RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip \
-    && unzip $OPENCV_VERSION.zip \
-    && mkdir /opencv-$OPENCV_VERSION/cmake_binary \
-    && cd /opencv-$OPENCV_VERSION/cmake_binary \
-    && cmake -DBUILD_TIFF=ON \
-       -DBUILD_opencv_java=OFF \
-       -DBUILD_SHARED_LIBS=OFF \
-       -DWITH_CUDA=ON \
-       # -DENABLE_FAST_MATH=1 \
-       # -DCUDA_FAST_MATH=1 \
-       -DWITH_CUBLAS=1 \
-       -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-9.0 \
-       ##
-       ## Should compile for most card
-       ## 3.5 binary code for devices with compute capability 3.5 and 3.7,
-       ## 5.0 binary code for devices with compute capability 5.0 and 5.2,
-       ## 6.0 binary code for devices with compute capability 6.0 and 6.1,
-       -DCUDA_ARCH_BIN='3.0 3.5 5.0 6.0 6.2' \
-       -DCUDA_ARCH_PTX="" \
-       ##
-       ## AVX in dispatch because not all machines have it
-       -DCPU_DISPATCH=AVX,AVX2 \
-       -DENABLE_PRECOMPILED_HEADERS=OFF \
-       -DWITH_OPENGL=OFF \
-       -DWITH_OPENCL=OFF \
-       -DWITH_QT=ON \
-       -DWITH_IPP=ON \
-       -DWITH_GTK=OFF \
-       -DWITH_TBB=ON \
-       -DFORCE_VTK=ON \
-       -DWITH_EIGEN=ON \
-       -DWITH_V4L=ON \
-       -DWITH_XINE=ON \
-       -DWITH_GDAL=ON \
-       -DWITH_1394=OFF \
-       -DWITH_FFMPEG=OFF \
-       -DBUILD_TESTS=OFF \
-       -DBUILD_PERF_TESTS=OFF \
-       -DCMAKE_BUILD_TYPE=RELEASE \
-       # -DCMAKE_INSTALL_PREFIX=$OPENCV_INSTALL_PATH \
-    .. \
-    ##
-    ## Add variable to enable make to use all cores
-    && export NUMPROC=$(nproc --all) \
-    && make -j$NUMPROC install \
-    ## Remove following lines if you need to move openCv
-    && rm /$OPENCV_VERSION.zip \
-    && rm -r /opencv-$OPENCV_VERSION
 
 ## Compress the openCV files so you can extract them from the docker easily 
 # RUN tar cvzf opencv-$OPENCV_VERSION.tar.gz --directory=$OPENCV_INSTALL_PATH .
