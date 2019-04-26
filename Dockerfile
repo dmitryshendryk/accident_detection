@@ -10,6 +10,19 @@ ADD . /accident_detection
 ARG https_proxy
 ARG http_proxy
 
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    unzip \
+    yasm \
+    pkg-config \
+    curl  \
+    qt5-default \
+    qtbase5-dev \
+    qttools5-dev 
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
