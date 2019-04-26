@@ -29,6 +29,7 @@ COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
 class CarPlateConfig(Config):
 
@@ -700,7 +701,7 @@ if __name__ == '__main__':
                         metavar="/path/to/weights.h5",
                         help="Path to weights .h5 file or 'coco'")
 
-
+    parser.add_argument('--device')
     
     args = parser.parse_args()
 
@@ -776,6 +777,8 @@ if __name__ == '__main__':
         model_path = os.path.join(ROOT_DIR, args.weights)
         print("Loading weights ", model_path)
         model.load_weights(model_path, by_name=True)
+
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
 
         dataset = os.path.join(ROOT_DIR, args.dataset)
         detection(model, image_path=None,
