@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:1.13.1-gpu-py3
+FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
 MAINTAINER Dmitry
 
 ADD . /accident_detection
@@ -10,19 +10,6 @@ ADD . /accident_detection
 ARG https_proxy
 ARG http_proxy
 
-RUN apt-get update && \
-    apt-get install -y \
-    build-essential \
-    cmake \
-    git \
-    wget \
-    unzip \
-    yasm \
-    pkg-config \
-    curl  \
-    qt5-default \
-    qtbase5-dev \
-    qttools5-dev 
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
@@ -46,14 +33,13 @@ RUN pip3 --no-cache-dir install \
     hdf5storage \
     h5py \
     scipy \
-    py3nvml \
-    scikit-image \ 
-    opencv-python
+    py3nvml
 
 # Install tensorflow and dependencies
 RUN pip3 --no-cache-dir install tensorflow-gpu==1.5.0 \
             keras==2.2.0 \ 
-            scikit-image==0.15.0 
+            scikit-image==0.15.0 \
+            opencv-python
             
 
 # Set the library path to use cuda and cupti
@@ -63,15 +49,8 @@ ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD
 ###  OPENCV INSTALL  ###
 ########################
 
-ARG OPENCV_VERSION=3.4.1
-# ARG OPENCV_INSTALL_PATH=/usr/local
-
-## Create install directory
-## Force success as the only reason for a fail is if it exist
-
-# RUN mkdir -p $OPENCV_INSTALL_PATH; exit 0
-
-
 ## Compress the openCV files so you can extract them from the docker easily 
 # RUN tar cvzf opencv-$OPENCV_VERSION.tar.gz --directory=$OPENCV_INSTALL_PATH .
 WORKDIR /accident_detection
+
+
