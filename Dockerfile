@@ -1,4 +1,5 @@
-FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
+# FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
+FROM  tensorflow/tensorflow:1.13.1-gpu-py3
 MAINTAINER Dmitry
 
 ADD . /accident_detection
@@ -46,24 +47,13 @@ RUN pip3 --no-cache-dir install \
     hdf5storage \
     h5py \
     scipy \
-    py3nvml
+    py3nvml \ 
+    keras==2.2.0 \ 
+    scikit-image==0.15.0 \
+    opencv-python
 
-# Install tensorflow and dependencies
-RUN pip3 --no-cache-dir install tensorflow-gpu==1.5.0 \
-            keras==2.2.0 \ 
-            scikit-image==0.15.0 \
-            opencv-python
-            
+#ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
-# Set the library path to use cuda and cupti
-ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-
-########################
-###  OPENCV INSTALL  ###
-########################
-
-## Compress the openCV files so you can extract them from the docker easily 
-# RUN tar cvzf opencv-$OPENCV_VERSION.tar.gz --directory=$OPENCV_INSTALL_PATH .
 WORKDIR /accident_detection
 
 
