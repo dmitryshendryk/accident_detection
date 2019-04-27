@@ -3,6 +3,10 @@ MAINTAINER Dmitry
 
 ADD . /accident_detection
 
+ENV gpu_device default_env_value
+ENV vid_path default_env_value
+
+
 ###########################
 ### TENSORFLOW INSTALL  ###
 ###########################
@@ -77,4 +81,6 @@ RUN pip3 --no-cache-dir install \
 WORKDIR /accident_detection/workspace/
 
 
-CMD ["python3", "main.py", "detect", "--device", "1", "--weights", "weights/mask_rcnn_accident_0282_v1.h5", "--dataset", "videos_accident/cctv_1.mp4"]
+# CMD [ "python3", "main.py", "detect", "--device", "1", "--weights", "weights/mask_rcnn_accident_0282_v1.h5", "--vid_path", "videos_accident/cctv_1.mp4"]
+
+CMD ["sh", "-c" "python3 main.py detect --device=${gpu_device}  --weights=weights/mask_rcnn_accident_0282_v1.h5 --vid_path=${vid_path}"]

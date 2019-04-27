@@ -702,6 +702,7 @@ if __name__ == '__main__':
                         help="Path to weights .h5 file or 'coco'")
 
     parser.add_argument('--device')
+    parser.add_argument('--vid_path')
     
     args = parser.parse_args()
 
@@ -780,9 +781,9 @@ if __name__ == '__main__':
         model.load_weights(model_path, by_name=True)
 
 
-        dataset = os.path.join(ROOT_DIR, args.dataset)
+        vid_path = os.path.join(ROOT_DIR, args.vid_path)
         detection(model, image_path=None,
-                                video_path=dataset)
+                                video_path=vid_path)
 
 
 
