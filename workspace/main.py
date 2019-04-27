@@ -21,6 +21,7 @@ from mrcnn.visualize import display_images
 from mrcnn.model import log
 from workspace import evaluate
 from workspace import helper
+from tools.rest_api import RestAPI
 
 # Path to trained weights file
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
@@ -605,6 +606,7 @@ def detection(model, image_path=None, video_path=None):
     # class_names = ['BG','carplate']
     class_names = ['BG','accident']
     # Image or video?
+    rest = RestAPI()
     if video_path:
 
         cap = cv2.VideoCapture(video_path)
@@ -615,7 +617,10 @@ def detection(model, image_path=None, video_path=None):
                 continue
             r = model.detect([image], verbose=1)[0]
 
-            print(r)
+            # print(r)
+
+            if (len(r['rois']) != 0):
+                rest.send_post()
             # if (len(r['rois']) != 0):
             #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
             
@@ -773,6 +778,7 @@ if __name__ == '__main__':
         train_model(model, args.dataset_train, args.mode_train)
     
     if args.command == 'detect':
+        
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
         # model_path = model.find_last()
