@@ -220,4 +220,4 @@ class DBReader():
 
 if __name__ == "__main__":
     db = DBReader()
-    db.query_cameras()
+    print(db.query_cameras())
