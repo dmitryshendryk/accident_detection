@@ -7,7 +7,8 @@ class Config():
     database = 'master'
     username = 'AIUSER'
     password = 'AIPassword!q@'
-    connecting_string = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password
+    connecting_string = 'SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password
+    # connecting_string = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password
 
     camera_table = 'TectumTraffic.ai.Camera'
     camera_server_table = 'TectumTraffic.ai.ServerCamera'    
