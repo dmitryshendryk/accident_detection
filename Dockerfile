@@ -24,7 +24,8 @@ RUN apt-get update && \
     qtbase5-dev \
     qttools5-dev \
     unixodbc-bin \
-    unixodbc
+    unixodbc \ 
+    curl
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
