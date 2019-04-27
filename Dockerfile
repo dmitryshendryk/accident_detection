@@ -23,7 +23,6 @@ RUN apt-get update && \
     qt5-default \
     qtbase5-dev \
     qttools5-dev \
-    unixodbc-dev \
     unixodbc-bin \
     unixodbc
 
@@ -39,6 +38,18 @@ RUN apt-get install -y \
     python3-dev \
     python3-numpy \
     python3-pip 
+
+## ODBC Drivers
+
+RUN sudo su curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    exit \
+    sudo apt-get update \
+    sudo ACCEPT_EULA=Y apt-get install msodbcsql17 \
+    sudo apt-get install unixodbc-dev
+
+
+
 
 ## Cleanup
 RUN rm -rf /var/lib/apt/lists/*
@@ -58,7 +69,8 @@ RUN pip3 --no-cache-dir install \
     pandas \
     IPython \ 
     numpy \ 
-    pyodbc
+    pyodbc \
+    pypika 
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
