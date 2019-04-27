@@ -2,8 +2,8 @@ import json
 import os 
 import sys
 import requests
-# from tools.config import Config
-from config import Config
+from tools.config import Config
+# from config import Config
 import datetime
 
 import json
