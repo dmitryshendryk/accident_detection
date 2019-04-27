@@ -22,7 +22,10 @@ RUN apt-get update && \
     curl  \
     qt5-default \
     qtbase5-dev \
-    qttools5-dev 
+    qttools5-dev \
+    unixodbc-dev \
+    unixodbc-bin \
+    unixodbc
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
@@ -54,7 +57,8 @@ RUN pip3 --no-cache-dir install \
     matplotlib \
     pandas \
     IPython \ 
-    numpy 
+    numpy \ 
+    pyodbc
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 

@@ -56,3 +56,7 @@ ptyhon main.py validate_temporal --temporal=</path/to/weights>
 cd workspace
 python main.py detect --weights='<path to the weights in weights dir>' --dataset='<path to the video>'
 ```
+
+# Server
+
+dmitry@35.193.146.105
