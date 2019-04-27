@@ -6,7 +6,6 @@ from tools.config import Config
 
 import datetime
 
-from bson import json_util
 import json
 
 ROOT_DIR = os.path.abspath('../')
