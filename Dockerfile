@@ -83,4 +83,4 @@ WORKDIR /accident_detection/workspace/
 
 # CMD [ "python3", "main.py", "detect", "--device", "1", "--weights", "weights/mask_rcnn_accident_0282_v1.h5", "--vid_path", "videos_accident/cctv_1.mp4"]
 
-CMD ["sh", "-c" "python3 main.py detect --device=${gpu_device}  --weights=weights/mask_rcnn_accident_0282_v1.h5 --vid_path=${vid_path}"]
+CMD ["sh", "-c" "python3 main.py detect --device=$gpu_device  --weights=weights/mask_rcnn_accident_0282_v1.h5 --vid_path=$vid_path"]
