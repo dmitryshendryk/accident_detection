@@ -74,6 +74,7 @@ RUN pip3 --no-cache-dir install \
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
-WORKDIR /accident_detection
+WORKDIR /accident_detection/workspace/
 
 
+# CMD ["python3", "main.py", "detect", "--device", "1", "--weights", "weights/mask_rcnn_accident_0282_v1.h5", "--dataset", "videos_accident/cctv_1.mp4"]

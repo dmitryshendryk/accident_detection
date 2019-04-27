@@ -772,13 +772,13 @@ if __name__ == '__main__':
         train_model(model, args.dataset_train, args.mode_train)
     
     if args.command == 'detect':
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
         # model_path = model.find_last()
         model_path = os.path.join(ROOT_DIR, args.weights)
         print("Loading weights ", model_path)
         model.load_weights(model_path, by_name=True)
 
-        os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
 
         dataset = os.path.join(ROOT_DIR, args.dataset)
         detection(model, image_path=None,
