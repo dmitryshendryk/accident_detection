@@ -25,7 +25,6 @@ RUN apt-get update && \
     qttools5-dev \
     unixodbc-bin \
     unixodbc \ 
-    curl
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
@@ -42,8 +41,7 @@ RUN apt-get install -y \
 
 ## ODBC Drivers
 
-RUN sudo su \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
     exit \
     sudo apt-get update \
