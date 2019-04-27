@@ -2,8 +2,8 @@ import json
 import os 
 import sys
 import requests
-from tools.config import Config
-
+# from tools.config import Config
+from config import Config
 import datetime
 
 import json
@@ -24,3 +24,6 @@ class RestAPI():
         r = requests.post(self.config.POST_URL, json=(payload), headers=headers)
         print("Response {}".format(r))
 
+if __name__ == "__main__":
+    rest = RestAPI()
+    rest.send_post()

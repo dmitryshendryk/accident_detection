@@ -63,7 +63,7 @@ class DBReader():
         print("LOG: querying database for camera info !!")
         cursor = self.connection.cursor()
 
-        camera_server_table = Table(CAMERA_SERVER_TABLE)
+        camera_server_table = Table(self.config.camera_server_table)
 
         #query camera ids with desired service and running on our server
         q = Query.from_(camera_server_table) \
@@ -99,7 +99,7 @@ class DBReader():
 
         print("detected cameras: ", service_cameras_ids)
 
-        camera_table = Table(CAMERA_TABLE)
+        camera_table = Table(self.config.camera_table)
         q = Query.from_(camera_table).select('*')\
                                      .where(camera_table.Id.isin(service_cameras_ids))\
                                      .where(camera_table.isActive == 1 )

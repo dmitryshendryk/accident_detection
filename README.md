@@ -59,4 +59,6 @@ python main.py detect --weights='<path to the weights in weights dir>' --dataset
 
 # Server
 
+python3 main.py detect --device=1 --weights=weights/mask_rcnn_accident_0282_v1.h5 --vid_path=videos_accident/cctv_1.mp4
+
 dmitry@35.193.146.105
