@@ -77,4 +77,4 @@ RUN pip3 --no-cache-dir install \
 WORKDIR /accident_detection/workspace/
 
 
-# CMD ["python3", "main.py", "detect", "--device", "1", "--weights", "weights/mask_rcnn_accident_0282_v1.h5", "--dataset", "videos_accident/cctv_1.mp4"]
+CMD ["python3", "main.py", "detect", "--device", "1", "--weights", "weights/mask_rcnn_accident_0282_v1.h5", "--dataset", "videos_accident/cctv_1.mp4"]
