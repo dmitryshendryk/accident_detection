@@ -1,9 +1,15 @@
 import json 
 import os 
+import sys
 import requests
-from config import Config
+from tools.config import Config
 
 import datetime
+
+ROOT_DIR = os.path.abspath('../')
+sys.path.append(ROOT_DIR)
+
+
 
 class RestAPI():
 

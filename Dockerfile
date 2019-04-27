@@ -74,7 +74,8 @@ RUN pip3 --no-cache-dir install \
     IPython \ 
     numpy \ 
     pyodbc \
-    pypika 
+    pypika \
+    requests
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
