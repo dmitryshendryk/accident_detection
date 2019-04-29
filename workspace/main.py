@@ -804,7 +804,7 @@ if __name__ == '__main__':
             if not db.query_cameras():
                 exit(0)
             else:
-                cameras_list = db.id_list()
+                cameras_list = db.id_list
                 if len(cameras_list) != 0:
                     camera_info = db.get_camera_info_by_id(cameras_list[0])
 
