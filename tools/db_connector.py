@@ -1,9 +1,13 @@
 import pyodbc
 import time
-from config import Config
+# from config import Config
+from tools.config import Config
 
 from pypika import Table, Field
 from pypika import MSSQLQuery as Query
+
+ROOT_DIR = os.path.abspath('../')
+sys.path.append(ROOT_DIR)
 
 class DBReader():
 
@@ -218,7 +222,7 @@ class DBReader():
         self.id_list = self.curr_id_list
         return True, list(add), list(remove)
 
-if __name__ == "__main__":
-    db = DBReader()
-    print(db.query_cameras())
-    print(db.id_list)
+# if __name__ == "__main__":
+    # db = DBReader()
+    # print(db.query_cameras())
+    # print(db.id_list)

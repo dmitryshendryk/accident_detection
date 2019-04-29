@@ -22,6 +22,7 @@ from mrcnn.model import log
 from workspace import evaluate
 from workspace import helper
 from tools.rest_api import RestAPI
+from tools.db_connector import DBReader
 
 # Path to trained weights file
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
@@ -601,12 +602,27 @@ def inspect_model(config, model_path):
 
     plt.show()
 
-def detection(model, image_path=None, video_path=None):
+def detection(model, image_path=None, video_path=None, camera_info=None):
     assert image_path or video_path
     # class_names = ['BG','carplate']
     class_names = ['BG','accident']
     # Image or video?
     rest = RestAPI()
+
+    if camera_info:
+
+        camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
+        cap = cv2.VideoCapture(camera_path)
+
+        while True:
+            ref, image = cap.read()
+            if ref is None:
+                continue
+            r = model.detect([image], verbose=1)[0]
+
+            if (len(r['rois']) != 0):
+                rest.send_post()
+
     if video_path:
 
         cap = cv2.VideoCapture(video_path)
@@ -781,6 +797,17 @@ if __name__ == '__main__':
     if args.command == 'detect':
         
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
+        camera_info = None
+
+        if args.streaming == 'camera':
+            db = DBReader()
+            if not db.query_cameras():
+                exit(0)
+            else:
+                cameras_list = db.id_list()
+                if len(cameras_list) != 0:
+                    camera_info = db.get_camera_info_by_id(cameras_list[0])
+
         model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
         # model_path = model.find_last()
         model_path = os.path.join(ROOT_DIR, args.weights)
@@ -790,7 +817,7 @@ if __name__ == '__main__':
 
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
         detection(model, image_path=None,
-                                video_path=vid_path)
+                                video_path=vid_path, camera_info=camera_info)
 
 
 
