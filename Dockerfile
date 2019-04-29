@@ -92,4 +92,4 @@ RUN pip3 --no-cache-dir install \
 WORKDIR /accident_detection/workspace/
 
 
-CMD ["sh", "-c" "python3 main.py detect --device=${GPU_DEVICE}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH}"]
+CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH}"]
