@@ -2,7 +2,8 @@ import pyodbc
 import time
 # from config import Config
 from tools.config import Config
-
+import os 
+import sys 
 from pypika import Table, Field
 from pypika import MSSQLQuery as Query
 
