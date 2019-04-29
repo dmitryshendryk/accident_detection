@@ -619,6 +619,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None):
             if ref is None:
                 continue
             if image is None:
+                print('frame is empty')
                 continue 
             r = model.detect([image], verbose=1)[0]
 
