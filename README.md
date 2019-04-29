@@ -71,6 +71,11 @@ sudo nvidia-docker build -t accident_detection  .
 ```
 
 ## Run image
+
+GPU_DEVICE= choose the on which gpu run
+STREAM_TYPE= should be camera or video
+VID_PATH=path to video if STREAM_TYPE=video
+WEIGHTS=weights of the model, default is weights/mask_rcnn_accident_0282_v1.h5
 ```
-sudo nvidia-docker run -e gpu_device=1 -e  vid_path=videos_accident/cctv_1.mp4  -d accident_detection
+sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=camera -e VID_PATH=videos_accident/cctv_1.mp4 -e WEIGHTS=weights/mask_rcnn_accident_0282_v1.h5 -d accident_detection
 ```
