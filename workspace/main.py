@@ -618,6 +618,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None):
             ref, image = cap.read()
             if ref is None:
                 continue
+            print(len(image))
             r = model.detect([image], verbose=1)[0]
 
             if (len(r['rois']) != 0):
