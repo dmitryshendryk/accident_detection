@@ -221,3 +221,4 @@ class DBReader():
 if __name__ == "__main__":
     db = DBReader()
     print(db.query_cameras())
+    print(db.id_list)
