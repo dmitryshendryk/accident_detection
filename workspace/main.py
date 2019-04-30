@@ -740,6 +740,7 @@ if __name__ == '__main__':
     parser.add_argument('--device')
     parser.add_argument('--vid_path')
     parser.add_argument('--streaming')
+    parser.add_argument('--response_delay')
     
     args = parser.parse_args()
 
