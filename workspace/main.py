@@ -25,6 +25,8 @@ from tools.rest_api import RestAPI
 from tools.db_connector import DBReader
 
 import time 
+from timeit import default_timer as timer
+
 
 # Path to trained weights file
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
@@ -55,7 +57,7 @@ class InferenceConfig(CarPlateConfig):
     IMAGES_PER_GPU = 1
 
     MAX_GT_INSTANCES = 10
-    
+
     IMAGE_MIN_DIM = int(480)
     IMAGE_MAX_DIM = int(640)
     POST_NMS_ROIS_INFERENCE = 200
@@ -610,7 +612,7 @@ def inspect_model(config, model_path):
 
     plt.show()
 
-def detection(model, image_path=None, video_path=None, camera_info=None):
+def detection(model, image_path=None, video_path=None, camera_info=None, response_delay):
     assert image_path or video_path
     # class_names = ['BG','carplate']
     class_names = ['BG','accident']
@@ -637,7 +639,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None):
     if video_path:
 
         cap = cv2.VideoCapture(video_path)
-
+        last_post = timer()
         while True:
             ref, image = cap.read()
             if ref is None:
@@ -645,13 +647,17 @@ def detection(model, image_path=None, video_path=None, camera_info=None):
             if image is None:
                 print("Frame is broken")
                 continue
-            start_time = time.time()
+            start_time = timer()
             r = model.detect([image], verbose=1)[0]
-            elapsed_time = time.time() - start_time
+            end_time = timer()
+            elapsed_time = end_time - start_time
             print(str(elapsed_time))
 
             if (len(r['rois']) != 0):
-                rest.send_post()
+                if last_post > response_delay:
+                    rest.send_post()
+                    last_post = timer()
+
             # if (len(r['rois']) != 0):
             #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
             
@@ -833,7 +839,7 @@ if __name__ == '__main__':
 
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
         detection(model, image_path=None,
-                                video_path=vid_path, camera_info=camera_info)
+                                video_path=vid_path, camera_info=camera_info, response_delay=args.response_delay)
 
 
 
