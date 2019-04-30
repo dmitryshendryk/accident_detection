@@ -24,6 +24,8 @@ from workspace import helper
 from tools.rest_api import RestAPI
 from tools.db_connector import DBReader
 
+import time 
+
 # Path to trained weights file
 COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
@@ -49,8 +51,8 @@ class CarPlateConfig(Config):
 class InferenceConfig(CarPlateConfig):
             # Set batch size to 1 since we'll be running inference on
             # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
-    GPU_COUNT = 1
-    IMAGES_PER_GPU = 1
+    GPU_COUNT = 2
+    IMAGES_PER_GPU = 2
 
 
 class CarPlateDataset(utils.Dataset):
@@ -637,8 +639,10 @@ def detection(model, image_path=None, video_path=None, camera_info=None):
             if image is None:
                 print("Frame is broken")
                 continue
+            start_time = time.time()
             r = model.detect([image], verbose=1)[0]
-
+            elapsed_time = time.time() - start_time
+            print(str(1000 * elapsed_time))
 
             if (len(r['rois']) != 0):
                 rest.send_post()
