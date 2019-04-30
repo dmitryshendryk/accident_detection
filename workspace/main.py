@@ -55,7 +55,7 @@ class InferenceConfig(CarPlateConfig):
     IMAGES_PER_GPU = 1
 
     IMAGE_MIN_DIM = int(256)
-    IMAGE_MAX_DIM = int(480)
+    IMAGE_MAX_DIM = int(448)
     POST_NMS_ROIS_INFERENCE = 300
 
 
