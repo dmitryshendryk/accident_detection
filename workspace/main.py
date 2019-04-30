@@ -612,7 +612,7 @@ def inspect_model(config, model_path):
 
     plt.show()
 
-def detection(model, image_path=None, video_path=None, camera_info=None, response_delay):
+def detection(model, image_path=None, video_path=None, camera_info=None, response_delay=None):
     assert image_path or video_path
     # class_names = ['BG','carplate']
     class_names = ['BG','accident']
