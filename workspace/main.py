@@ -654,7 +654,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
             print(str(elapsed_time))
 
             if (len(r['rois']) != 0):
-                if last_post > response_delay:
+                if last_post > int(response_delay):
                     rest.send_post()
                     last_post = timer()
 
