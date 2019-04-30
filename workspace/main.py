@@ -55,10 +55,10 @@ class InferenceConfig(CarPlateConfig):
     IMAGES_PER_GPU = 1
 
     MAX_GT_INSTANCES = 10
-
+    
     IMAGE_MIN_DIM = int(480)
     IMAGE_MAX_DIM = int(640)
-    POST_NMS_ROIS_INFERENCE = 500
+    POST_NMS_ROIS_INFERENCE = 200
 
 
 class CarPlateDataset(utils.Dataset):
@@ -648,7 +648,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None):
             start_time = time.time()
             r = model.detect([image], verbose=1)[0]
             elapsed_time = time.time() - start_time
-            print(str(1000 * elapsed_time))
+            print(str(elapsed_time))
 
             if (len(r['rois']) != 0):
                 rest.send_post()
