@@ -15,7 +15,8 @@ ENV STREAM_TYPE ${STREAM_TYPE}
 ARG WEIGHTS=weights/mask_rcnn_accident_0282_v1.h5
 ENV WEIGHTS ${WEIGHTS}
 
-
+ARG RESPONSE_DELAY=2
+ENV RESPONSE_DELAY ${RESPONSE_DELAY}
 
 ###########################
 ### TENSORFLOW INSTALL  ###
@@ -92,4 +93,4 @@ RUN pip3 --no-cache-dir install \
 WORKDIR /accident_detection/workspace/
 
 
-CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH}"]
+CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
