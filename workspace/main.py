@@ -59,7 +59,7 @@ class InferenceConfig(CarPlateConfig):
     MAX_GT_INSTANCES = 10
 
     IMAGE_MIN_DIM = int(320)
-    IMAGE_MAX_DIM = int(540)
+    IMAGE_MAX_DIM = int(512)
     POST_NMS_ROIS_INFERENCE = 200
 
 
