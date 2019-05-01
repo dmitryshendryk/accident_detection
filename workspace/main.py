@@ -60,10 +60,10 @@ class InferenceConfig(CarPlateConfig):
 
     BACKBONE = "resnet101"
 
-    # MAX_GT_INSTANCES = 100
+    MAX_GT_INSTANCES = 100
 
-    # IMAGE_MIN_DIM = 448
-    # IMAGE_MAX_DIM = 640
+    IMAGE_MIN_DIM = 448
+    IMAGE_MAX_DIM = 640
     POST_NMS_ROIS_INFERENCE = 500
 
 
@@ -644,22 +644,27 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
 
         cap = cv2.VideoCapture(video_path)
         last_post = timer()
+        skip_frame = 1
         while True:
+            if skip_frame == 100:
+                skip_frame = 1
             ref, image = cap.read()
             if ref is None:
                 continue
             if image is None:
                 print("Frame is broken")
                 continue
-            start_time = timer()
-            r = model.detect([image], verbose=1)[0]
-            end_time = timer()
-            elapsed_time = end_time - start_time
-            print(r['rois'])
-            print(str(elapsed_time))
+            skip_frame += 1
+            if skip_frame % 10 == 0:
+                start_time = timer()
+                r = model.detect([image], verbose=1)[0]
+                end_time = timer()
+                elapsed_time = end_time - start_time
+                print(r['rois'])
+                print(str(elapsed_time))
 
-            if (len(r['rois']) != 0):
-                if last_post > int(response_delay):
+                if (len(r['rois']) != 0):
+                    # if last_post > int(response_delay):
                     rest.send_post()
                     last_post = timer()
 
