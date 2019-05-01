@@ -56,6 +56,8 @@ class InferenceConfig(CarPlateConfig):
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
 
+    BACKBONE = "resnet50"
+
     MAX_GT_INSTANCES = 10
 
     IMAGE_MIN_DIM = int(320)
