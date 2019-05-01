@@ -58,13 +58,13 @@ class InferenceConfig(CarPlateConfig):
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
 
-    # BACKBONE = "resnet50"
+    BACKBONE = "resnet50"
 
     MAX_GT_INSTANCES = 10
 
-    IMAGE_MIN_DIM = 256
-    IMAGE_MAX_DIM = 384
-    POST_NMS_ROIS_INFERENCE = 200
+    IMAGE_MIN_DIM = 448
+    IMAGE_MAX_DIM = 640
+    POST_NMS_ROIS_INFERENCE = 300
 
 
 class CarPlateDataset(utils.Dataset):
