@@ -60,11 +60,11 @@ class InferenceConfig(CarPlateConfig):
 
     BACKBONE = "resnet101"
 
-    MAX_GT_INSTANCES = 10
+    # MAX_GT_INSTANCES = 100
 
-    IMAGE_MIN_DIM = 448
-    IMAGE_MAX_DIM = 640
-    POST_NMS_ROIS_INFERENCE = 300
+    # IMAGE_MIN_DIM = 448
+    # IMAGE_MAX_DIM = 640
+    POST_NMS_ROIS_INFERENCE = 500
 
 
 class CarPlateDataset(utils.Dataset):
