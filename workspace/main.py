@@ -653,9 +653,10 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
                 continue
             if image is None:
                 print("Frame is broken")
+                exit(0)
                 continue
             skip_frame += 1
-            if skip_frame % 10 == 0:
+            if skip_frame % 5 == 0:
                 start_time = timer()
                 r = model.detect([image], verbose=1)[0]
                 end_time = timer()
