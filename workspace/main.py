@@ -655,6 +655,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
             r = model.detect([image], verbose=1)[0]
             end_time = timer()
             elapsed_time = end_time - start_time
+            print(r['rois'])
             print(str(elapsed_time))
 
             if (len(r['rois']) != 0):
