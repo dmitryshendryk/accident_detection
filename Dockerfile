@@ -28,8 +28,7 @@ ENV MODELS_SERVER ${MODELS_SERVER}
 ARG https_proxy
 ARG http_proxy
 
-######### Download model from sandbox
-RUN wget $MODELS_SERVER -O /accident_detection/weights
+
 
 
 RUN apt-get update && \
@@ -47,6 +46,9 @@ RUN apt-get update && \
     qttools5-dev \
     unixodbc-bin \
     unixodbc 
+
+######### Download model from sandbox
+RUN wget $MODELS_SERVER -O /accident_detection/weights
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
