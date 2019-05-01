@@ -665,9 +665,9 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
                 print(str(elapsed_time))
 
                 if (len(r['rois']) != 0):
-                    # if last_post > int(response_delay):
-                    rest.send_post()
-                    last_post = timer()
+                    if last_post > int(response_delay):
+                        rest.send_post()
+                        last_post = timer()
 
             # if (len(r['rois']) != 0):
             #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
