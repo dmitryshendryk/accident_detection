@@ -48,7 +48,7 @@ RUN apt-get update && \
     unixodbc 
 
 ######### Download model from sandbox
-RUN wget $MODELS_SERVER -O /accident_detection/weights
+RUN  $MODELS_SERVER > /weights/accident_detection_v_02.h5
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
