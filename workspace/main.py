@@ -661,7 +661,7 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
                 
                 if (len(r['rois']) != 0):
                     cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
-                    rest.send_post(camera_info['Id'], ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+                    rest.send_post(camera['info']['Id'], ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
 
                 
 
