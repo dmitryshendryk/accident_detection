@@ -852,7 +852,7 @@ if __name__ == '__main__':
     if args.command == 'detect':
         
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
-        camera_info = None
+        cameras_info = []
 
         if args.streaming == 'camera':
             db = DBReader()
@@ -861,10 +861,13 @@ if __name__ == '__main__':
             else:
                 cameras_list = db.id_list
                 if len(cameras_list) != 0:
-                    cam_data = cameras_init(cameras_list)
+                    
+                    for camera_id in cameras_list:
+                        cameras_info.append(db.get_camera_info_by_id(camera_id))
+                    
+                    cam_data = cameras_init(cameras_info)
                     print(cam_data)
                     exit(0)
-                    camera_info = db.get_camera_info_by_id(cameras_list[0])
                 
 
         model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
