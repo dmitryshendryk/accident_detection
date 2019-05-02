@@ -80,11 +80,11 @@ WEIGHTS=weights of the model, default is weights/mask_rcnn_accident_0282_v1.h5
 
 ### Run in background
 ```
-sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=camera -e VID_PATH=videos_accident/cctv_1.mp4 -e WEIGHTS=weights/accident_detection_v_02.h5 -e --response_delay=1 -d accident_detection
+sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=camera -e VID_PATH=videos_accident/cctv_1.mp4 -e WEIGHTS=weights/accident_detection_v_02.h5 -e --response_delay=1 -v ~/accident_detection/imgs:/accident_detection/imgs -d accident_detection
 ```
 
 ### Run with output in front
 
 ```
-sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=video -e VID_PATH=videos_accident/cctv_1.mp4 -e WEIGHTS=weights/accident_detection_v_02.h5 -e --response_delay=1 --rm -ti  accident_detection
+sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=video -e VID_PATH=videos_accident/cctv_1.mp4 -e WEIGHTS=weights/accident_detection_v_02.h5 -e --response_delay=1 -v ~/accident_detection/imgs:/accident_detection/imgs --rm -ti  accident_detection
 ```

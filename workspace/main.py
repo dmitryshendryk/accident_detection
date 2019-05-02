@@ -23,6 +23,7 @@ from workspace import evaluate
 from workspace import helper
 from tools.rest_api import RestAPI
 from tools.db_connector import DBReader
+from tools.video_handler import VideoStream
 
 import time 
 import pathlib
@@ -617,9 +618,26 @@ def inspect_model(config, model_path):
 
     plt.show()
 
+def cameras_init(cameras_list):
+
+    cam_data = {}
+    for camera_info in cameras_list:
+        camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
+        cam = {
+            "stream": VideoStream(camera_path, name=camera_info['Id']),
+            "info":  camera_info
+        }
+
+        cam["stream"].start()
+
+        print("start camera: {}".format(cam["stream"].name))
+        cam_data[cam["stream"].name] = cam
+    
+    return cam_data
+
+
 def detection(model, image_path=None, video_path=None, camera_info=None, response_delay=None):
     assert image_path or video_path
-    # class_names = ['BG','carplate']
     class_names = ['BG','accident']
     # Image or video?
     pathlib.Path(ROOT_DIR + '/imgs').mkdir(parents=True, exist_ok=True)
@@ -843,7 +861,11 @@ if __name__ == '__main__':
             else:
                 cameras_list = db.id_list
                 if len(cameras_list) != 0:
+                    cam_data = cameras_init(cameras_list)
+                    print(cam_data)
+                    exit(0)
                     camera_info = db.get_camera_info_by_id(cameras_list[0])
+                
 
         model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
         # model_path = model.find_last()
