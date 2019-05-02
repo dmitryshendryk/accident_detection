@@ -621,6 +621,7 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
     # class_names = ['BG','carplate']
     class_names = ['BG','accident']
     # Image or video?
+    pathlib.Path(ROOT_DIR + '/imgs').mkdir(parents=True, exist_ok=True)
     rest = RestAPI()
 
     if camera_info:
@@ -638,7 +639,8 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
             r = model.detect([image], verbose=1)[0]
 
             if (len(r['rois']) != 0):
-                rest.send_post()
+                cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+                rest.send_post(camera_info['Id'], ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
 
     if video_path:
 
@@ -666,7 +668,8 @@ def detection(model, image_path=None, video_path=None, camera_info=None, respons
 
                 if (len(r['rois']) != 0):
                     if last_post > int(response_delay):
-                        rest.send_post()
+                        cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+                        rest.send_post("video local", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
                         last_post = timer()
 
             # if (len(r['rois']) != 0):
