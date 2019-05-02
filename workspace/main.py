@@ -25,6 +25,7 @@ from tools.rest_api import RestAPI
 from tools.db_connector import DBReader
 
 import time 
+import pathlib
 from timeit import default_timer as timer
 
 
