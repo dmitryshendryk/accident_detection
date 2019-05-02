@@ -636,31 +636,48 @@ def cameras_init(cameras_list):
     return cam_data
 
 
-def detection(model, image_path=None, video_path=None, camera_info=None, response_delay=None):
+def detection(model, image_path=None, video_path=None, cam_data=None, response_delay=None):
     assert image_path or video_path
     class_names = ['BG','accident']
     # Image or video?
     pathlib.Path(ROOT_DIR + '/imgs').mkdir(parents=True, exist_ok=True)
     rest = RestAPI()
 
-    if camera_info:
-
-        camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
-        cap = cv2.VideoCapture(camera_path)
+    if cam_data:
 
         while True:
-            ref, image = cap.read()
-            if ref is None:
-                continue
-            if image is None:
-                print('frame is empty')
-                continue 
-            r = model.detect([image], verbose=1)[0]
+            for key in cam_data.keys():
 
-            if (len(r['rois']) != 0):
-                cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
-                rest.send_post(camera_info['Id'], ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+                camera = cam_data[key]
 
+                print("Process camera {}".format(camera['stream'].name))
+
+                image = camera['stream'].read()
+
+                if image is None:
+                    print("Frame is empty")
+                    continue
+                r = model.detect([image], verbose=1)[0]
+                
+                if (len(r['rois']) != 0):
+                    cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+                    rest.send_post(camera_info['Id'], ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+
+                
+
+        # camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
+        # cap = cv2.VideoCapture(camera_path)
+
+        # while True:
+        #     ref, image = cap.read()
+        #     if ref is None:
+        #         continue
+        #     if image is None:
+        #         print('frame is empty')
+        #         continue 
+        #     r = model.detect([image], verbose=1)[0]
+
+      
     if video_path:
 
         cap = cv2.VideoCapture(video_path)
@@ -866,8 +883,6 @@ if __name__ == '__main__':
                         cameras_info.append(db.get_camera_info_by_id(camera_id))
                     
                     cam_data = cameras_init(cameras_info)
-                    print(cam_data)
-                    exit(0)
                 
 
         model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
@@ -879,7 +894,7 @@ if __name__ == '__main__':
 
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
         detection(model, image_path=None,
-                                video_path=vid_path, camera_info=camera_info, response_delay=args.response_delay)
+                                video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 
 
 
