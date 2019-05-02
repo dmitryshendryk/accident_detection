@@ -870,7 +870,7 @@ if __name__ == '__main__':
         
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         cameras_info = []
-
+        cam_data = None
         if args.streaming == 'camera':
             db = DBReader()
             if not db.query_cameras():
