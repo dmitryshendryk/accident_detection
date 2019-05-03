@@ -653,7 +653,7 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
                 print("Process camera {}".format(camera['stream'].name))
 
                 image = camera['stream'].read()
-
+                print(image.shape)
                 image = cv2.resize(image,(640,640))
 
                 if image is None:
