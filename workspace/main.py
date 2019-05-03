@@ -655,7 +655,7 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
                 image = camera['stream'].read()
                 print(image.shape)
                 image = cv2.resize(image,(640,640))
-
+                print(image.shape)
                 if image is None:
                     print("Frame is empty")
                     continue
