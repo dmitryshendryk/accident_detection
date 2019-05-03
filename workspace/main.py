@@ -654,12 +654,16 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
 
                 image = camera['stream'].read()
                 print(image.shape)
-                image = cv2.resize(image,(500,500))
+                image = cv2.resize(image,(640,640))
                 print(image.shape)
                 if image is None:
                     print("Frame is empty")
                     continue
+                start_time = timer()
                 r = model.detect([image], verbose=1)[0]
+                end_time = timer()
+                elapsed_time = end_time - start_time
+                print(str(elapsed_time))
                 
                 if (len(r['rois']) != 0):
                     cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
