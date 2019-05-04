@@ -25,6 +25,8 @@ from tools.rest_api import RestAPI
 from tools.db_connector import DBReader
 from tools.video_handler import VideoStream
 
+from yolo import YOLO
+
 import time 
 import pathlib
 from timeit import default_timer as timer
@@ -895,8 +897,10 @@ if __name__ == '__main__':
         model_path = os.path.join(ROOT_DIR, args.weights)
         print("Loading weights ", model_path)
         model.load_weights(model_path, by_name=True)
+        print("Mask rcnn loaded")
 
-
+        YOLO()
+        print("Yolo loaded")
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
         detection(model, image_path=None,
                                 video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
