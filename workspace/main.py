@@ -638,7 +638,7 @@ def cameras_init(cameras_list):
     return cam_data
 
 
-def detection(model, image_path=None, video_path=None, cam_data=None, response_delay=None):
+def detection(model, yolo, image_path=None, video_path=None, cam_data=None, response_delay=None):
     assert image_path or video_path
     class_names = ['BG','accident']
     # Image or video?
@@ -702,7 +702,12 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
                 continue
             skip_frame += 1
             if skip_frame % 5 == 0:
+
                 start_time = timer()
+                print('Process yolo')
+                boxs = yolo.detect_image(image)
+                print(boxs)
+                print('Process mask rcnn')
                 r = model.detect([image], verbose=1)[0]
                 end_time = timer()
                 elapsed_time = end_time - start_time
@@ -899,10 +904,10 @@ if __name__ == '__main__':
         model.load_weights(model_path, by_name=True)
         print("Mask rcnn loaded")
 
-        YOLO()
+        yolo = YOLO()
         print("Yolo loaded")
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
-        detection(model, image_path=None,
+        detection(model, yolo, image_path=None,
                                 video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 
 
