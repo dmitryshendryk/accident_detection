@@ -8,6 +8,7 @@ import cv2
 import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from PIL import Image
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -694,6 +695,8 @@ def detection(model, yolo, image_path=None, video_path=None, cam_data=None, resp
             if skip_frame == 100:
                 skip_frame = 1
             ref, image = cap.read()
+
+            frame_img = Image.fromarray(image[...,::-1])
             if ref is None:
                 continue
             if image is None:
@@ -705,7 +708,7 @@ def detection(model, yolo, image_path=None, video_path=None, cam_data=None, resp
 
                 start_time = timer()
                 print('Process yolo')
-                boxs = yolo.detect_image(image)
+                boxs = yolo.detect_image(frame_img)
                 print(boxs)
                 print('Process mask rcnn')
                 r = model.detect([image], verbose=1)[0]
