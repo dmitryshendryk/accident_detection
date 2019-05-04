@@ -711,9 +711,9 @@ def detection(model, yolo, image_path=None, video_path=None, cam_data=None, resp
                 boxs = yolo.detect_image(frame_img)
                 print(boxs)
                 for box in boxs:
-                    frame_img = np.array(frame_img)
-                    frame_img = frame_img[:, :, ::-1].copy() 
-                    frame_img = frame_img[box[1]:box[0], box[3]:box[2]]
+                    # frame_img = np.array(frame_img)
+                    # frame_img = frame_img[:, :, ::-1].copy() 
+                    frame_img = image[box[1]:box[0], box[3]:box[2]]
                     cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
                 print('Process mask rcnn')
                 r = model.detect([image], verbose=1)[0]
