@@ -664,7 +664,7 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
                 end_time = timer()
                 elapsed_time = end_time - start_time
                 print(str(elapsed_time))
-                
+
                 if (len(r['rois']) != 0):
                     cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
                     rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
@@ -685,7 +685,6 @@ def detection(model, image_path=None, video_path=None, cam_data=None, response_d
 
       
     if video_path:
-
         cap = cv2.VideoCapture(video_path)
         last_post = timer()
         skip_frame = 1
