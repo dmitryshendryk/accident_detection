@@ -9,6 +9,9 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image
+from keras.applications.vgg16 import VGG16
+from keras.models import load_model
+from scipy.misc import imread,imresize
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -23,7 +26,7 @@ from mrcnn.model import log
 from workspace import evaluate
 from workspace import helper
 from tools.rest_api import RestAPI
-from tools.db_connector import DBReader
+# from tools.db_connector import DBReader
 from tools.video_handler import VideoStream
 
 from yolo import YOLO
@@ -49,7 +52,7 @@ class CarPlateConfig(Config):
 
     IMAGES_PER_GPU = 1
 
-    NUM_CLASSES = 1 + 1
+    NUM_CLASSES = 1 + 2
 
     STEPS_PER_EPOCH = 100
 
@@ -80,9 +83,11 @@ class CarPlateDataset(utils.Dataset):
 
     
         self.add_class("accident", 1, "accident")
+        self.add_class("normal", 1, "normal")
     
         name_dict = {
-           "accident": 1
+           "accident": 1,
+           "normal": 2
         }
         assert subset in ['train', 'val']
 
@@ -639,58 +644,45 @@ def cameras_init(cameras_list):
     return cam_data
 
 
-def detection(model, yolo, image_path=None, video_path=None, cam_data=None, response_delay=None):
+def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data=None, response_delay=None):
     assert image_path or video_path
     class_names = ['BG','accident']
     # Image or video?
     pathlib.Path(ROOT_DIR + '/imgs').mkdir(parents=True, exist_ok=True)
     rest = RestAPI()
+    padding_left, padding_right = 50,50
 
-    if cam_data:
+    # if cam_data:
 
-        while True:
-            for key in cam_data.keys():
+    #     while True:
+    #         for key in cam_data.keys():
 
-                camera = cam_data[key]
+    #             camera = cam_data[key]
 
-                print("Process camera {}".format(camera['stream'].name))
+    #             print("Process camera {}".format(camera['stream'].name))
 
-                image = camera['stream'].read()
-                print(image.shape)
-                image = cv2.resize(image,(640,640))
-                print(image.shape)
-                if image is None:
-                    print("Frame is empty")
-                    continue
-                start_time = timer()
-                r = model.detect([image], verbose=1)[0]
-                end_time = timer()
-                elapsed_time = end_time - start_time
-                print(str(elapsed_time))
+    #             image = camera['stream'].read()
+    #             print(image.shape)
+    #             image = cv2.resize(image,(640,640))
+    #             print(image.shape)
+    #             if image is None:
+    #                 print("Frame is empty")
+    #                 continue
+    #             start_time = timer()
+    #             r = model.detect([image], verbose=1)[0]
+    #             end_time = timer()
+    #             elapsed_time = end_time - start_time
+    #             print(str(elapsed_time))
 
-                if (len(r['rois']) != 0):
-                    cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
-                    rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
-
-                
-
-        # camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
-        # cap = cv2.VideoCapture(camera_path)
-
-        # while True:
-        #     ref, image = cap.read()
-        #     if ref is None:
-        #         continue
-        #     if image is None:
-        #         print('frame is empty')
-        #         continue 
-        #     r = model.detect([image], verbose=1)[0]
-
+    #             if (len(r['rois']) != 0):
+    #                 cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+    #                 rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
       
     if video_path:
         cap = cv2.VideoCapture(video_path)
         last_post = timer()
         skip_frame = 1
+        x = []
         while True:
             if skip_frame == 100:
                 skip_frame = 1
@@ -710,23 +702,56 @@ def detection(model, yolo, image_path=None, video_path=None, cam_data=None, resp
                 print('Process yolo')
                 boxs = yolo.detect_image(frame_img)
                 print(boxs)
-                for box in boxs:
-                    # frame_img = np.array(frame_img)
-                    # frame_img = frame_img[:, :, ::-1].copy() 
-                    frame_img = image[box[1]:box[1]+box[3],box[0]:box[0]+box[2]]
-                    cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
-                print('Process mask rcnn')
-                r = model.detect([image], verbose=1)[0]
-                end_time = timer()
-                elapsed_time = end_time - start_time
-                print(r['rois'])
-                print(str(elapsed_time))
+                print("Data in x vector {}".format(len(x)))
+                if len(boxs) != 0:
+                    for box in boxs:
+                        # frame_img = np.array(frame_img)
+                        # frame_img = frame_img[:, :, ::-1].copy()
+                        
+                        frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
+                        # print(frame_img.shape)
+                        if frame_img.shape[0] != 0:
+                            frame_img = cv2.resize(frame_img , (224,224))
+                            x.append(frame_img)
+                            cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
+                    if len(x) > 20:
+                        x = np.array(x)
+                        base_model.predict(x)
+                        print("LSTM processing")
+                        x_features = base_model.predict(x)
+                        x_features = x_features.reshape(x_features.shape[0], x_features.shape[1]*x_features.shape[2], x_features.shape[3])
+                        answer = lstm.predict(x_features)
+                        
+                        answer = [int(np.round(x)) for x in answer]
+                        
 
-                if (len(r['rois']) != 0):
-                    if last_post > int(response_delay):
-                        # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
-                        rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
-                        last_post = timer()
+                        accident_amount =  answer.count(0)
+                        normal = answer.count(1)
+                        print("Probabilities -------------------------")
+                        print("Accident: {} %".format((accident_amount/len(answer)) * 100))
+                        print("Normal: {} %".format((normal/len(answer))*100 ))
+                        answer = []
+                        # print(answer)
+
+                        x = []
+
+                    
+
+                    # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
+                    # if len(frame_img) != 0:
+                    #     print('Process mask rcnn ')
+                    #     r = model.detect([frame_img], verbose=1)[0]
+                    #     end_time = timer()
+                    #     elapsed_time = end_time - start_time
+                    #     print(r['rois'])
+                    #     print(str(elapsed_time))
+
+                    #     if (len(r['rois']) != 0):
+                    #             print("FOUND ACCIDENT ------------------------  {}".format(r['rois']))
+
+                            # if last_post > int(response_delay):
+                                # rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+                                # last_post = timer()
 
             # if (len(r['rois']) != 0):
             #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
@@ -786,7 +811,11 @@ def train_model(model, subfolder, mode_train):
                     epochs=1000,
                     layers='all')
 
-
+def load_VGG16_model():
+  base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224,224,3))
+  print ("Model loaded..!")
+  print (base_model.summary())
+  return base_model
 
 
 if __name__ == '__main__':
@@ -817,6 +846,7 @@ if __name__ == '__main__':
     parser.add_argument('--vid_path')
     parser.add_argument('--streaming')
     parser.add_argument('--response_delay')
+    parser.add_argument('--lstm_weights')
     
     args = parser.parse_args()
 
@@ -891,31 +921,37 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         cameras_info = []
         cam_data = None
-        if args.streaming == 'camera':
-            db = DBReader()
-            if not db.query_cameras():
-                exit(0)
-            else:
-                cameras_list = db.id_list
-                if len(cameras_list) != 0:
+        # if args.streaming == 'camera':
+        #     db = DBReader()
+        #     if not db.query_cameras():
+        #         exit(0)
+        #     else:
+        #         cameras_list = db.id_list
+        #         if len(cameras_list) != 0:
                     
-                    for camera_id in cameras_list:
-                        cameras_info.append(db.get_camera_info_by_id(camera_id))
+        #             for camera_id in cameras_list:
+        #                 cameras_info.append(db.get_camera_info_by_id(camera_id))
                     
-                    cam_data = cameras_init(cameras_info)
+        #             cam_data = cameras_init(cameras_info)
                 
 
-        model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
-        # model_path = model.find_last()
-        model_path = os.path.join(ROOT_DIR, args.weights)
-        print("Loading weights ", model_path)
-        model.load_weights(model_path, by_name=True)
-        print("Mask rcnn loaded")
+        # model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
+        # # model_path = model.find_last()
+        # model_path = os.path.join(ROOT_DIR, args.weights)
+        # print("Loading weights ", model_path)
+        # model.load_weights(model_path, by_name=True)
+        # print("Mask rcnn loaded")
+        
+        print("Load base BGG16 model")
+        base_model = load_VGG16_model()
+        print("Load LSTM model")
+        lstm = load_model(args.lstm_weights)
+        print(lstm.summary())
 
         yolo = YOLO()
         print("Yolo loaded")
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
-        detection(model, yolo, image_path=None,
+        detection(lstm, yolo, base_model, image_path=None,
                                 video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 
 
