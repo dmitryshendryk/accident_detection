@@ -18,7 +18,7 @@ ENV WEIGHTS ${WEIGHTS}
 ARG RESPONSE_DELAY=2
 ENV RESPONSE_DELAY ${RESPONSE_DELAY}
 
-ARG MODELS_SERVER=http://ec2-18-217-76-76.us-east-2.compute.amazonaws.com:8090/file/accident_detection/accident_detection_v_02.h5
+ARG MODELS_SERVER=http://ec2-18-217-76-76.us-east-2.compute.amazonaws.com:8090/file/accident_detection/video_1_LSTM_1_1024.h5
 ENV MODELS_SERVER ${MODELS_SERVER}
 
 ###########################
