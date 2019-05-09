@@ -48,7 +48,7 @@ RUN apt-get update && \
     unixodbc 
 
 ######### Download model from sandbox
-RUN curl $MODELS_SERVER > /accident_detection/weights/accident_detection_v_02.h5
+RUN curl $MODELS_SERVER > /accident_detection/weights/video_1_LSTM_1_1024.h5
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
