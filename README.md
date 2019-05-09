@@ -86,5 +86,5 @@ sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=camera -e VID_PATH=videos_
 ### Run with output in front
 
 ```
-sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=video -e VID_PATH=videos_accident/cctv_1.mp4 -e WEIGHTS=weights/accident_detection_v_02.h5 -e --response_delay=1 -v ~/accident_detection/imgs:/accident_detection/imgs --rm -ti  accident_detection
+sudo nvidia-docker run -e GPU_DEVICE=1 -e STREAM_TYPE=video -e VID_PATH=videos_accident/YoutubeVid1.mp4 -e WEIGHTS=weights/video_1_LSTM_1_1024.h5 -e --response_delay=1 -v ~/accident_detection/imgs:/accident_detection/imgs --rm -ti  accident_detection
 ```
