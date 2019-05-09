@@ -136,7 +136,7 @@ if __name__ == '__main__':
     if args.command == 'create_csv':
         create_csv(args.train_path)
 
-    if args.command == 'predict':
+    if args.command == 'predictt':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         fuse_prediction(args.spatial, args.temporal)
     
