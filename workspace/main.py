@@ -731,6 +731,8 @@ def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data
                         print("Probabilities -------------------------")
                         print("Accident: {} %".format((accident_amount/len(answer)) * 100))
                         print("Normal: {} %".format((normal/len(answer))*100 ))
+
+                        # rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
                         answer = []
                         # print(answer)
 
