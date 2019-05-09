@@ -714,7 +714,7 @@ def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data
                             # print(frame_img.shape)
                             frame_img = cv2.resize(frame_img , (224,224))
                             x.append(frame_img)
-                            cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
+                            cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
                     if len(x) > 20:
                         x = np.array(x)
                         base_model.predict(x)
