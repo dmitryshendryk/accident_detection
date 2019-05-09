@@ -711,7 +711,7 @@ def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data
                         frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
                         # print(frame_img.shape)
                         if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
-                            print(frame_img.shape)
+                            # print(frame_img.shape)
                             frame_img = cv2.resize(frame_img , (224,224))
                             x.append(frame_img)
                             cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
