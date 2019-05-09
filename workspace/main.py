@@ -945,7 +945,7 @@ if __name__ == '__main__':
         print("Load base BGG16 model")
         base_model = load_VGG16_model()
         print("Load LSTM model")
-        lstm = load_model(args.weights)
+        lstm = load_model(os.path.join(ROOT_DIR, args.weights))
         print(lstm.summary())
 
         yolo = YOLO()
