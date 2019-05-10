@@ -644,7 +644,7 @@ def cameras_init(cameras_list):
     return cam_data
 
 
-def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data=None, response_delay=None):
+def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, video_path=None, cam_data=None, response_delay=None):
     assert image_path or video_path
     class_names = ['BG','accident']
     # Image or video?
@@ -705,16 +705,12 @@ def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data
                 print("Data in x vector {}".format(len(x)))
                 if len(boxs) != 0:
                     for box in boxs:
-                        # frame_img = np.array(frame_img)
-                        # frame_img = frame_img[:, :, ::-1].copy()
                         
                         frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
-                        # print(frame_img.shape)
                         if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
-                            # print(frame_img.shape)
                             frame_img = cv2.resize(frame_img , (224,224))
                             x.append(frame_img)
-                            cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+                            # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
                     if len(x) > 20:
                         x = np.array(x)
                         base_model.predict(x)
@@ -726,35 +722,27 @@ def detection(lstm, yolo, base_model, image_path=None, video_path=None, cam_data
                         answer = [int(np.round(x)) for x in answer]
                         
 
-                        accident_amount =  answer.count(0)
-                        normal = answer.count(1)
-                        print("Probabilities -------------------------")
-                        print("Accident: {} %".format((accident_amount/len(answer)) * 100))
-                        print("Normal: {} %".format((normal/len(answer))*100 ))
+                        accident_amount =  (answer.count(0)/len(answer)) * 100
+                        normal = (answer.count(1)/len(answer))*100 
+                        print("Probabilities ----------------------------------------------")
+                        print("Accident: {} %".format(accident_amount))
+                        print("Normal: {} %".format(normal))
+                        print(' -----------------------------------------------------------')
 
-                        # rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+                        if int(accident_amount) > int(accident_threshold):
+                            anserImgs = [a for a,b in zip(x, answer) if b != 1]
+                            print( "Images in accidetns: ", len(anserImgs))
+                            print("Post result")
+                            # rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+                            for indx, img in enumerate(anserImgs):
+                                cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '_' + str(indx)  + '.jpg', img)
                         answer = []
-                        # print(answer)
 
                         x = []
 
                     
 
                     # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
-                    # if len(frame_img) != 0:
-                    #     print('Process mask rcnn ')
-                    #     r = model.detect([frame_img], verbose=1)[0]
-                    #     end_time = timer()
-                    #     elapsed_time = end_time - start_time
-                    #     print(r['rois'])
-                    #     print(str(elapsed_time))
-
-                    #     if (len(r['rois']) != 0):
-                    #             print("FOUND ACCIDENT ------------------------  {}".format(r['rois']))
-
-                            # if last_post > int(response_delay):
-                                # rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
-                                # last_post = timer()
 
             # if (len(r['rois']) != 0):
             #     image = cv2.rectangle(image, (r['rois'][0][1], r['rois'][0][0]), (r['rois'][0][3], r['rois'][0][2]), (100, 20, 100), thickness=2)
@@ -850,6 +838,7 @@ if __name__ == '__main__':
     parser.add_argument('--streaming')
     parser.add_argument('--response_delay')
     parser.add_argument('--lstm_weights')
+    parser.add_argument('--accident_threshold')
     
     args = parser.parse_args()
 
@@ -954,7 +943,7 @@ if __name__ == '__main__':
         yolo = YOLO()
         print("Yolo loaded")
         vid_path = os.path.join(ROOT_DIR, args.vid_path)
-        detection(lstm, yolo, base_model, image_path=None,
+        detection(lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
                                 video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 
 
