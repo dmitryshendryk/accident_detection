@@ -26,7 +26,7 @@ from mrcnn.model import log
 from workspace import evaluate
 from workspace import helper
 from tools.rest_api import RestAPI
-# from tools.db_connector import DBReader
+from tools.db_connector import DBReader
 from tools.video_handler import VideoStream
 
 from yolo import YOLO
@@ -953,18 +953,18 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         cameras_info = []
         cam_data = None
-        # if args.streaming == 'camera':
-        #     db = DBReader()
-        #     if not db.query_cameras():
-        #         exit(0)
-        #     else:
-        #         cameras_list = db.id_list
-        #         if len(cameras_list) != 0:
+        if args.streaming == 'camera':
+            db = DBReader()
+            if not db.query_cameras():
+                exit(0)
+            else:
+                cameras_list = db.id_list
+                if len(cameras_list) != 0:
                     
-        #             for camera_id in cameras_list:
-        #                 cameras_info.append(db.get_camera_info_by_id(camera_id))
+                    for camera_id in cameras_list:
+                        cameras_info.append(db.get_camera_info_by_id(camera_id))
                     
-        #             cam_data = cameras_init(cameras_info)
+                    cam_data = cameras_init(cameras_info)
                 
 
         # model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
