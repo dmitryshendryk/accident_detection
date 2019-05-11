@@ -653,9 +653,12 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     padding_left, padding_right = 50,50
 
     if cam_data:
+        skip_frame = 1
 
         while True:
             for key in cam_data.keys():
+                if skip_frame == 100:
+                    skip_frame = 1
 
                 camera = cam_data[key]
 
