@@ -652,31 +652,70 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     rest = RestAPI()
     padding_left, padding_right = 50,50
 
-    # if cam_data:
+    if cam_data:
 
-    #     while True:
-    #         for key in cam_data.keys():
+        while True:
+            for key in cam_data.keys():
 
-    #             camera = cam_data[key]
+                camera = cam_data[key]
 
-    #             print("Process camera {}".format(camera['stream'].name))
+                print("Process camera {}".format(camera['stream'].name))
 
-    #             image = camera['stream'].read()
-    #             print(image.shape)
-    #             image = cv2.resize(image,(640,640))
-    #             print(image.shape)
-    #             if image is None:
-    #                 print("Frame is empty")
-    #                 continue
-    #             start_time = timer()
-    #             r = model.detect([image], verbose=1)[0]
-    #             end_time = timer()
-    #             elapsed_time = end_time - start_time
-    #             print(str(elapsed_time))
+                image = camera['stream'].read()
 
-    #             if (len(r['rois']) != 0):
-    #                 cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
-    #                 rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg')
+                frame_img = Image.fromarray(image[...,::-1])
+            if ref is None:
+                continue
+            if image is None:
+                print("Frame is broken")
+                exit(0)
+                continue
+            skip_frame += 1
+            if skip_frame % 5 == 0:
+
+                start_time = timer()
+                print('Process yolo')
+                boxs = yolo.detect_image(frame_img)
+                print(boxs)
+                print("Data in x vector {}".format(len(x)))
+                if len(boxs) != 0:
+                    for box in boxs:
+                        
+                        frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
+                        if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
+                            frame_img = cv2.resize(frame_img , (224,224))
+                            x.append(frame_img)
+                            # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+                    if len(x) > 20:
+                        x = np.array(x)
+                        base_model.predict(x)
+                        print("LSTM processing")
+                        x_features = base_model.predict(x)
+                        x_features = x_features.reshape(x_features.shape[0], x_features.shape[1]*x_features.shape[2], x_features.shape[3])
+                        answer = lstm.predict(x_features)
+                        
+                        answer = [int(np.round(x)) for x in answer]
+                        
+
+                        accident_amount =  (answer.count(0)/len(answer)) * 100
+                        normal = (answer.count(1)/len(answer))*100 
+                        print("Probabilities ----------------------------------------------")
+                        print("Accident: {} %".format(accident_amount))
+                        print("Normal: {} %".format(normal))
+                        print(' -----------------------------------------------------------')
+
+                        if int(accident_amount) > int(accident_threshold):
+                            anserImgs = [a for a,b in zip(x, answer) if b != 1]
+                            print( "Images in accidetns: ", len(anserImgs))
+                            print("Post result")
+                            # for indx, img in enumerate(anserImgs):
+                            cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg', image)
+                            rest.send_post("1476320433439", ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg')
+
+                        answer = []
+
+                        x = []
+
       
     if video_path:
         cap = cv2.VideoCapture(video_path)
