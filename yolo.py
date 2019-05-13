@@ -18,7 +18,7 @@ from PIL import Image, ImageFont, ImageDraw
 from yolo3.model import yolo_eval
 from yolo3.utils import letterbox_image
 
-ROOT_DIR = os.path.abspath('../')
+ROOT_DIR = os.path.abspath('./')
 
 class YOLO(object):
     def __init__(self):
