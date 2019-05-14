@@ -18,7 +18,7 @@ from PIL import Image, ImageFont, ImageDraw
 from yolo3.model import yolo_eval
 from yolo3.utils import letterbox_image
 
-ROOT_DIR = os.path.abspath('./')
+ROOT_DIR = os.path.abspath('../')
 
 class YOLO(object):
     def __init__(self):
@@ -99,7 +99,7 @@ class YOLO(object):
         return_boxs = []
         for i, c in reversed(list(enumerate(out_classes))):
             predicted_class = self.class_names[c]
-            if predicted_class != 'car':
+            if( predicted_class != 'car') and ( predicted_class != 'motorbike') :
                 continue 
             box = out_boxes[i]
            # score = out_scores[i]  
