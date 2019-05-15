@@ -104,6 +104,7 @@ WORKDIR /accident_detection/
 RUN chmod a+x download_models.sh
 RUN ./download_models.sh
 
+VOLUME /model_data
 
 WORKDIR /accident_detection/workspace/
 
