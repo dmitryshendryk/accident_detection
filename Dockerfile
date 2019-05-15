@@ -103,11 +103,11 @@ RUN pip3 --no-cache-dir install \
 RUN chmod a+x /accident_detection/install/download_models.sh
 RUN chmod a+x /accident_detection/run.sh
 
-RUN ./accident_detection/run.sh
+# RUN ./accident_detection/run.sh
 
 
 WORKDIR /accident_detection/workspace/
 
 
 
-CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE} --accident_threshold=${ACCIDENT_THRESHOLD}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
+CMD ./../run.sh && ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE} --accident_threshold=${ACCIDENT_THRESHOLD}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
