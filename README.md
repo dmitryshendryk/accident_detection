@@ -67,8 +67,7 @@ dmitry@35.193.146.105
 
 ## Build image
 ```
-chmode a+x install/build.sh
-./install/build.sh
+
 
 ```
 
