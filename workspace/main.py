@@ -656,7 +656,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     rest = RestAPI()
     padding_left, padding_right = 50,50
     start = time.time()
-
+    print("VIDEO PATH :  ", video_path)
     if cam_data:
         skip_frame = 1
         x = []
