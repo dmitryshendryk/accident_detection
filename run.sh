@@ -1,0 +1,1 @@
+./accident_detection/install/download_models.sh
