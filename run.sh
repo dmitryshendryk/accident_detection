@@ -1,1 +1,1 @@
-./accident_detection/install/download_models.sh
+./../install/download_models.sh
