@@ -48,6 +48,9 @@ RUN apt-get update && \
     unixodbc 
 
 
+RUN chmod a+x download_models.sh
+CMD  ./download_models.sh
+
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
@@ -98,9 +101,10 @@ RUN pip3 --no-cache-dir install \
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
+
+
 WORKDIR /accident_detection/workspace/
 
-RUN chmod a+x download_models.sh
-CMD  ./download_models.sh
+
 
 CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE} --accident_threshold=${ACCIDENT_THRESHOLD}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
