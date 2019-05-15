@@ -643,6 +643,10 @@ def cameras_init(cameras_list):
     
     return cam_data
 
+def calc_time_elapsed(start, end):
+    hours, rem = divmod(end-start, 3600)
+    minutes, seconds = divmod(rem, 60)
+    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
 
 def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, video_path=None, cam_data=None, response_delay=None):
     assert image_path or video_path
@@ -651,6 +655,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     pathlib.Path(ROOT_DIR + '/imgs').mkdir(parents=True, exist_ok=True)
     rest = RestAPI()
     padding_left, padding_right = 50,50
+    start = time.time()
 
     if cam_data:
         skip_frame = 1
@@ -717,7 +722,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
 
                             x = []
 
-      
+        end = time.time()
+        calc_time_elapsed(start, end)
     if video_path:
         cap = cv2.VideoCapture(video_path)
         last_post = timer()
@@ -782,7 +788,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                         x = []
 
                     
-
+        end = time.time()
+        calc_time_elapsed(start, end)
     if image_path:
         # Run model detection and generate the color splash effect
         imgs = os.listdir(image_path)
