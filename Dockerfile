@@ -18,9 +18,6 @@ ENV WEIGHTS ${WEIGHTS}
 ARG RESPONSE_DELAY=2
 ENV RESPONSE_DELAY ${RESPONSE_DELAY}
 
-ARG MODELS_SERVER=http://ec2-18-217-76-76.us-east-2.compute.amazonaws.com:8090/file/accident_detection/video_1_LSTM_1_1024.h5
-ENV MODELS_SERVER ${MODELS_SERVER}
-
 ARG ACCIDENT_THRESHOLD=70
 ENV ACCIDENT_THRESHOLD ${ACCIDENT_THRESHOLD}
 
@@ -50,8 +47,7 @@ RUN apt-get update && \
     unixodbc-bin \
     unixodbc 
 
-######### Download model from sandbox
-RUN curl $MODELS_SERVER > /accident_detection/weights/video_1_LSTM_1_1024.h5
+
 
 RUN apt-get install -y \
     libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
@@ -104,5 +100,7 @@ RUN pip3 --no-cache-dir install \
 
 WORKDIR /accident_detection/workspace/
 
+RUN chmod a+x download_models.sh
+CMD  ./download_models.sh
 
 CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE} --accident_threshold=${ACCIDENT_THRESHOLD}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
