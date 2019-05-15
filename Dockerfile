@@ -48,8 +48,7 @@ RUN apt-get update && \
     unixodbc 
 
 
-RUN chmod a+x ~/accident_detection/download_models.sh
-RUN sh ~/accident_detection/download_models.sh
+
 
 
 RUN apt-get install -y \
@@ -100,7 +99,10 @@ RUN pip3 --no-cache-dir install \
     requests
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+WORKDIR /accident_detection/
 
+RUN chmod a+x download_models.sh
+RUN ./download_models.sh
 
 
 WORKDIR /accident_detection/workspace/
