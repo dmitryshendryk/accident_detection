@@ -103,7 +103,7 @@ RUN pip3 --no-cache-dir install \
 RUN chmod a+x /accident_detection/install/download_models.sh
 RUN chmod a+x /accident_detection/run.sh
 
-CMD ./accident_detection/run.sh
+RUN ./accident_detection/run.sh
 
 
 WORKDIR /accident_detection/workspace/
