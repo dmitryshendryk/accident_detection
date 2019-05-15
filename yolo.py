@@ -22,9 +22,9 @@ ROOT_DIR = os.path.abspath('../')
 
 class YOLO(object):
     def __init__(self):
-        self.model_path = ROOT_DIR + '/model_data/yolo.h5'
-        self.anchors_path =  ROOT_DIR +'/model_data/yolo_anchors.txt'
-        self.classes_path =  ROOT_DIR +'/model_data/coco_classes.txt'
+        self.model_path = ROOT_DIR + '/workspace/model_data/yolo.h5'
+        self.anchors_path =  ROOT_DIR +'/workspace/model_data/yolo_anchors.txt'
+        self.classes_path =  ROOT_DIR +'/workspace/model_data/coco_classes.txt'
         self.score = 0.5
         self.iou = 0.5
         self.class_names = self._get_class()
