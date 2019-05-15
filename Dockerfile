@@ -99,12 +99,11 @@ RUN pip3 --no-cache-dir install \
     requests
 
 #ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-# WORKDIR /accident_detection/
+WORKDIR /accident_detection/
 
-# RUN chmod a+x download_models.sh
-# RUN ./download_models.sh
+RUN chmod a+x install/download_models.sh
+CMD ./install/download_models.sh
 
-# VOLUME /model_data
 
 WORKDIR /accident_detection/workspace/
 
