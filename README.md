@@ -77,6 +77,10 @@ STREAM_TYPE= should be camera or video
 VID_PATH=path to video if STREAM_TYPE=video
 WEIGHTS=weights of the model, default is weights/mask_rcnn_accident_0282_v1.h5
 
+### Change between cameras and video source
+
+STREAM_TYPE=camera
+STREAM_TYPE=video
 
 ### Run in background
 ```
