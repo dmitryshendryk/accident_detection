@@ -1,3 +1,8 @@
+if [ ! -d model_data ]
+then 
+    mkdir model_data
+fi 
+
 cd model_data
 
 if [ -f coco_classes.txt ]
