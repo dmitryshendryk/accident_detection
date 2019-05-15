@@ -105,8 +105,8 @@ RUN chmod a+x install/download_models.sh
 CMD ./install/download_models.sh
 
 
-# WORKDIR /accident_detection/workspace/
+WORKDIR /accident_detection/workspace/
 
 
 
-# CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE} --accident_threshold=${ACCIDENT_THRESHOLD}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
+CMD ["sh", "-c", "python3 main.py detect --device=${GPU_DEVICE} --accident_threshold=${ACCIDENT_THRESHOLD}  --streaming=${STREAM_TYPE} --weights=${WEIGHTS} --vid_path=${VID_PATH} --response_delay=${RESPONSE_DELAY}"]
