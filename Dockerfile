@@ -106,7 +106,7 @@ RUN chmod a+x /accident_detection/run.sh
 CMD ./accident_detection/run.sh
 
 
-WORKDIR /accident_detection/workspace/
+#WORKDIR /accident_detection/workspace/
 
 
 
