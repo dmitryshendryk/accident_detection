@@ -67,7 +67,9 @@ dmitry@35.193.146.105
 
 ## Build image
 ```
-sudo nvidia-docker build -t accident_detection  .
+chmode a+x install/build.sh
+./build.sh
+
 ```
 
 ## Run image
