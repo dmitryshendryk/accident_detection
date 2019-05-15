@@ -49,7 +49,7 @@ RUN apt-get update && \
 
 
 RUN chmod a+x ~/accident_detection/download_models.sh
-CMD  ./accident_detection/download_models.sh
+CMD  ~/accident_detection/download_models.sh
 
 
 RUN apt-get install -y \
