@@ -67,8 +67,7 @@ dmitry@35.193.146.105
 
 ## Build image
 ```
-
-
+sudo docker build -t accident_detection .
 ```
 
 ## Run image
