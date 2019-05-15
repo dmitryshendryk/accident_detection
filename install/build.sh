@@ -1,6 +1,4 @@
-cd install
-chmod x+a download_models.sh
-./download_models.sh
+chmod x+a /install/download_models.sh
+./install/download_models.sh
 
-cd ..
 sudo docker build -t accident_detection  .
