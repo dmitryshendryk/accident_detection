@@ -48,8 +48,8 @@ RUN apt-get update && \
     unixodbc 
 
 
-RUN chmod a+x download_models.sh
-CMD  ./download_models.sh
+RUN chmod a+x ~/accident_detection/download_models.sh
+CMD  ./accident_detection/download_models.sh
 
 
 RUN apt-get install -y \
