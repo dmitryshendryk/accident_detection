@@ -29,7 +29,7 @@ ARG https_proxy
 ARG http_proxy
 
 
-
+RUN  apt-get install apt-transport-https
 
 RUN apt-get update && \
     apt-get install -y \
