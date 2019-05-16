@@ -671,11 +671,11 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
 
                 image = camera['stream'].read()
 
-                frame_img = Image.fromarray(image[...,::-1])
                 if image is None:
                     print("Frame is broken")
                     # exit(0)
                     continue
+                frame_img = Image.fromarray(image[...,::-1])
                 skip_frame += 1
                 if skip_frame % 5 == 0:
 
@@ -724,6 +724,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
 
         end = time.time()
         calc_time_elapsed(start, end)
+        cap.release()
+        cv2.destroyAllWindows()
     if video_path:
         cap = cv2.VideoCapture(video_path)
         last_post = timer()
@@ -735,11 +737,11 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
             ref, image = cap.read()
             
             if ref is None:
-                continue
+                break
             if image is None:
                 print("Frame is broken")
                 continue
-                
+
             frame_img = Image.fromarray(image[...,::-1])
 
             skip_frame += 1
@@ -791,6 +793,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                     
         end = time.time()
         calc_time_elapsed(start, end)
+        cap.release()
+        cv2.destroyAllWindows()
     if image_path:
         # Run model detection and generate the color splash effect
         imgs = os.listdir(image_path)
