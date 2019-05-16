@@ -30,6 +30,7 @@ ARG http_proxy
 
 
 RUN  apt-get install apt-transport-https
+RUN rm /etc/apt/sources.list.d/cuda.list && rm /etc/apt/sources.list.d/nvidia-ml.list
 
 RUN apt-get update && \
     apt-get install -y \
