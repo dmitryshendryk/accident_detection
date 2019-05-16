@@ -733,14 +733,15 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
             if skip_frame == 100:
                 skip_frame = 1
             ref, image = cap.read()
-
-            frame_img = Image.fromarray(image[...,::-1])
+            
             if ref is None:
                 continue
             if image is None:
                 print("Frame is broken")
-                exit(0)
                 continue
+                
+            frame_img = Image.fromarray(image[...,::-1])
+
             skip_frame += 1
             if skip_frame % 5 == 0:
 
