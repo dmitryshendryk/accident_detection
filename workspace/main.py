@@ -788,8 +788,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                             answer = []
 
                             x = []
-             else:
-                 break               
+            else:
+                break               
 
                     
         end = time.time()
