@@ -658,6 +658,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     start = time.time()
     print("VIDEO PATH :  ", video_path)
     if cam_data:
+        print("Processing on camera")
         skip_frame = 1
         x = []
         while True:
@@ -727,6 +728,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
         cap.release()
         cv2.destroyAllWindows()
     if video_path:
+        print("Processing on video")
         cap = cv2.VideoCapture(video_path)
         last_post = timer()
         skip_frame = 1
@@ -965,7 +967,11 @@ if __name__ == '__main__':
                         cameras_info.append(db.get_camera_info_by_id(camera_id))
                     
                     cam_data = cameras_init(cameras_info)
-                
+        
+        vid_path = None 
+        if args.streaming == 'video':
+            vid_path = os.path.join(ROOT_DIR, args.vid_path)
+
 
         # model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
         # # model_path = model.find_last()
@@ -982,7 +988,6 @@ if __name__ == '__main__':
 
         yolo = YOLO()
         print("Yolo loaded")
-        vid_path = os.path.join(ROOT_DIR, args.vid_path)
         detection(lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
                                 video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 

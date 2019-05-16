@@ -3,7 +3,7 @@ MAINTAINER Dmitry
 
 ADD . /accident_detection
 
-ARG VID_PATH=videos_accident/cctv_1.mp4
+ARG VID_PATH=None
 ENV VID_PATH ${VID_PATH}
 
 ARG GPU_DEVICE=1
