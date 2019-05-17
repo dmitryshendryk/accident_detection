@@ -646,7 +646,7 @@ def cameras_init(cameras_list):
 def calc_time_elapsed(start, end):
     hours, rem = divmod(end-start, 3600)
     minutes, seconds = divmod(rem, 60)
-    print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
+    print("Processing time:  {:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
 
 def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, video_path=None, cam_data=None, response_delay=None):
     # assert image_path or video_path
@@ -955,32 +955,27 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         cameras_info = []
         cam_data = None
-        print("args.streaming : ", args.streaming)
         if args.streaming == 'camera':
             db = DBReader()
             if not db.query_cameras():
                 exit(0)
             else:
                 cameras_list = db.id_list
-                print("CAMERAS_LIST : ", len(cameras_list))
                 if len(cameras_list) != 0:
                     
                     for camera_id in cameras_list:
                         cameras_info.append(db.get_camera_info_by_id(camera_id))
                     
                     cam_data = cameras_init(cameras_info)
-                    print("OUTPUT cam_data : ", cam_data)
+                else:
+                    print("No active camers found. Finish job")
+                    exit(0)
+
         vid_path = None 
         if args.streaming == 'video':
             vid_path = os.path.join(ROOT_DIR, args.vid_path)
 
 
-        # model = modellib.MaskRCNN(mode='inference', config=config, model_dir=os.path.join(ROOT_DIR, 'logs'))
-        # # model_path = model.find_last()
-        # model_path = os.path.join(ROOT_DIR, args.weights)
-        # print("Loading weights ", model_path)
-        # model.load_weights(model_path, by_name=True)
-        # print("Mask rcnn loaded")
         
         print("Load base BGG16 model")
         base_model = load_VGG16_model()
