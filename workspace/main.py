@@ -649,7 +649,7 @@ def calc_time_elapsed(start, end):
     print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
 
 def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, video_path=None, cam_data=None, response_delay=None):
-    assert image_path or video_path
+    # assert image_path or video_path
     class_names = ['BG','accident']
     # Image or video?
     pathlib.Path(ROOT_DIR + '/imgs').mkdir(parents=True, exist_ok=True)
