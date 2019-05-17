@@ -657,6 +657,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     padding_left, padding_right = 50,50
     start = time.time()
     print("VIDEO PATH :  ", video_path)
+    print("CAMERA : ", cam_data)
     if cam_data:
         print("Processing on camera")
         skip_frame = 1
