@@ -962,13 +962,14 @@ if __name__ == '__main__':
                 exit(0)
             else:
                 cameras_list = db.id_list
+                print("CAMERAS_LIST : ", len(cameras_list))
                 if len(cameras_list) != 0:
                     
                     for camera_id in cameras_list:
                         cameras_info.append(db.get_camera_info_by_id(camera_id))
                     
                     cam_data = cameras_init(cameras_info)
-                    print("TEEESSTT : ", cam_data)
+                    print("OUTPUT cam_data : ", cam_data)
         vid_path = None 
         if args.streaming == 'video':
             vid_path = os.path.join(ROOT_DIR, args.vid_path)
@@ -983,7 +984,7 @@ if __name__ == '__main__':
         
         print("Load base BGG16 model")
         base_model = load_VGG16_model()
-        print("HEEEEREEEE : ", cam_data)
+        print("RESULT : ", cam_data)
         print("Load LSTM model")
         lstm = load_model(os.path.join(ROOT_DIR, args.weights))
         print(lstm.summary())
