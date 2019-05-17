@@ -87,7 +87,6 @@ RUN pip3 --no-cache-dir install \
     h5py \
     scipy \
     py3nvml \ 
-    keras==2.2.0 \ 
     scikit-image==0.15.0 \
     opencv-python \
     scikit-learn \ 

@@ -12,6 +12,7 @@ from PIL import Image
 from keras.applications.vgg16 import VGG16
 from keras.models import load_model
 from scipy.misc import imread,imresize
+from keras import backend as K
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -976,7 +977,8 @@ if __name__ == '__main__':
             vid_path = os.path.join(ROOT_DIR, args.vid_path)
 
 
-        
+        K.clear_session()
+
         print("Load base BGG16 model")
         base_model = load_VGG16_model()
         print("RESULT : ", cam_data)
