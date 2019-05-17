@@ -880,7 +880,6 @@ if __name__ == '__main__':
     parser.add_argument('--vid_path')
     parser.add_argument('--streaming')
     parser.add_argument('--response_delay')
-    parser.add_argument('--lstm_weights')
     parser.add_argument('--accident_threshold')
     
     args = parser.parse_args()
@@ -956,6 +955,7 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.device)
         cameras_info = []
         cam_data = None
+        print("args.streaming : ", args.streaming)
         if args.streaming == 'camera':
             db = DBReader()
             if not db.query_cameras():
