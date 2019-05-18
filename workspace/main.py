@@ -11,7 +11,7 @@ import matplotlib.patches as patches
 from PIL import Image
 from keras.applications.vgg16 import VGG16
 from keras.models import load_model
-from scipy.misc import imread,imresize
+# from scipy.misc import imread,imresize
 from keras import backend as K
 
 # Root directory of the project
