@@ -732,12 +732,22 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     if video_path:
         print("Processing on video")
         cap = cv2.VideoCapture(video_path)
+
+        ret, first_frame = cap.read()
+        first_frame = cv.resize(first_frame,(224,224))
+        prev_gray = cv.cvtColor(first_frame, cv.COLOR_BGR2GRAY)
+        mask = np.zeros_like(first_frame)
+        mask[..., 1] = 255
+        
+        prev_mag = 0
+        prev_varience = 0
+
         last_post = timer()
         skip_frame = 1
         x = []
         while True:
-            if skip_frame == 100:
-                skip_frame = 1
+            # if skip_frame == 100:
+                # skip_frame = 1
             ref, image = cap.read()
             
             if ref:
@@ -745,11 +755,33 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                     print("Frame is broken")
                     continue
 
-                frame_img = Image.fromarray(image[...,::-1])
+                next_frame = image.copy()
 
-                skip_frame += 1
-                if skip_frame % 5 == 0:
+                next_frame = cv.resize(next_frame,(224,224))
+                gray = cv.cvtColor(next_frame, cv.COLOR_BGR2GRAY)
+                
+                flow = cv.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+                mag = np.sqrt(flow[..., 0]**2 + flow[..., 1]**2)
+                # skip_frame += 1
+                # if skip_frame % 5 == 0:
 
+                change_mag = abs(mag - prev_mag)
+                binary_mag = np.ones(change_mag.shape,dtype=np.float64)
+                threshold_new = np.mean(change_mag , dtype=np.float64)
+                varience = np.where(change_mag < threshold_new,0,binary_mag)
+
+                varience = len(varience[varience == 1])
+
+                if np.all(prev_varience) == 0 and np.all(prev_mag) == 0: 
+                    # prev_binary_indicator = binary_indicator
+                    prev_varience = varience
+                    prev_mag = mag
+                    continue
+
+                if varience / prev_varience >= 2 and varience > prev_varience:
+                    print('Potential accident, {}'.format(datetime.datetime.now()))
+
+                    frame_img = Image.fromarray(image[...,::-1])
                     start_time = timer()
                     print('Process yolo')
                     boxs = yolo.detect_image(frame_img)
@@ -792,6 +824,12 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                             answer = []
 
                             x = []
+                
+                
+                prev_gray = gray
+                prev_magnitude = mag
+
+                
             else:
                 break               
 
@@ -800,6 +838,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
         calc_time_elapsed(start, end)
         cap.release()
         cv2.destroyAllWindows()
+
     if image_path:
         # Run model detection and generate the color splash effect
         imgs = os.listdir(image_path)
