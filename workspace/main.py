@@ -734,8 +734,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
         cap = cv2.VideoCapture(video_path)
 
         ret, first_frame = cap.read()
-        first_frame = cv.resize(first_frame,(224,224))
-        prev_gray = cv.cvtColor(first_frame, cv.COLOR_BGR2GRAY)
+        first_frame = cv2.resize(first_frame,(224,224))
+        prev_gray = cv2.cvtColor(first_frame, cv2.COLOR_BGR2GRAY)
         mask = np.zeros_like(first_frame)
         mask[..., 1] = 255
         
@@ -743,7 +743,6 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
         prev_varience = 0
 
         last_post = timer()
-        skip_frame = 1
         x = []
         while True:
             # if skip_frame == 100:
@@ -757,10 +756,10 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
 
                 next_frame = image.copy()
 
-                next_frame = cv.resize(next_frame,(224,224))
-                gray = cv.cvtColor(next_frame, cv.COLOR_BGR2GRAY)
+                next_frame = cv2.resize(next_frame,(224,224))
+                gray = cv2.cvtColor(next_frame, cv2.COLOR_BGR2GRAY)
                 
-                flow = cv.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+                flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
                 mag = np.sqrt(flow[..., 0]**2 + flow[..., 1]**2)
                 # skip_frame += 1
                 # if skip_frame % 5 == 0:
