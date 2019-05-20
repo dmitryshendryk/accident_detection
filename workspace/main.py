@@ -827,6 +827,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                 
                 prev_gray = gray
                 prev_magnitude = mag
+                prev_varience = varience
 
                 
             else:
