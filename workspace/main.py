@@ -659,6 +659,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     start = time.time()
     print("VIDEO PATH :  ", video_path)
     print("CAMERA : ", cam_data)
+    prev_mag = 0
+    prev_varience = 0
     if cam_data:
         print("Processing on camera")
         x = []
@@ -673,8 +675,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                 mask = np.zeros_like(first_frame)
                 mask[..., 1] = 255
                 
-                prev_mag = 0
-                prev_varience = 0
+                
 
                 for idx_frame in range(5):
 
