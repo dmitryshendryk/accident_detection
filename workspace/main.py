@@ -659,13 +659,14 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
     start = time.time()
     print("VIDEO PATH :  ", video_path)
     print("CAMERA : ", cam_data)
-    prev_mag = 0
-    prev_varience = 0
+   
     if cam_data:
         print("Processing on camera")
         x = []
         while True:
             for key in cam_data.keys():
+                prev_mag = 0
+                prev_varience = 0
                 camera = cam_data[key]
                 image = camera['stream'].read()
                 first_frame = image.copy()
@@ -674,8 +675,6 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                 prev_gray = cv2.cvtColor(first_frame, cv2.COLOR_BGR2GRAY)
                 mask = np.zeros_like(first_frame)
                 mask[..., 1] = 255
-                
-                
 
                 for idx_frame in range(5):
 
