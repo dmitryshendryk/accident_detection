@@ -669,98 +669,99 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                 prev_varience = 0
                 camera = cam_data[key]
                 image = camera['stream'].read()
-                first_frame = image.copy()
+                if image is not None:
+                    first_frame = image.copy()
 
-                first_frame = cv2.resize(first_frame,(224,224))
-                prev_gray = cv2.cvtColor(first_frame, cv2.COLOR_BGR2GRAY)
-                mask = np.zeros_like(first_frame)
-                mask[..., 1] = 255
+                    first_frame = cv2.resize(first_frame,(224,224))
+                    prev_gray = cv2.cvtColor(first_frame, cv2.COLOR_BGR2GRAY)
+                    mask = np.zeros_like(first_frame)
+                    mask[..., 1] = 255
 
-                for idx_frame in range(5):
+                    for idx_frame in range(5):
 
-                    print("Process camera {}".format(camera['stream'].name))
+                        print("Process camera {}".format(camera['stream'].name))
 
-                    image = camera['stream'].read()
+                        image = camera['stream'].read()
 
-                    if image is None:
-                        print("Frame is broken")
-                        # exit(0)
-                        continue
+                        if image is None:
+                            print("Frame is broken")
+                            # exit(0)
+                            continue
 
-                    next_frame = image.copy()
+                        next_frame = image.copy()
 
-                    next_frame = cv2.resize(next_frame,(224,224))
-                    gray = cv2.cvtColor(next_frame, cv2.COLOR_BGR2GRAY)
-                    
-                    flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
-                    mag = np.sqrt(flow[..., 0]**2 + flow[..., 1]**2)
-                    # skip_frame += 1
-                    # if skip_frame % 5 == 0:
+                        next_frame = cv2.resize(next_frame,(224,224))
+                        gray = cv2.cvtColor(next_frame, cv2.COLOR_BGR2GRAY)
+                        
+                        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+                        mag = np.sqrt(flow[..., 0]**2 + flow[..., 1]**2)
+                        # skip_frame += 1
+                        # if skip_frame % 5 == 0:
 
-                    change_mag = abs(mag - prev_mag)
-                    binary_mag = np.ones(change_mag.shape,dtype=np.float64)
-                    threshold_new = np.mean(change_mag , dtype=np.float64)
-                    varience = np.where(change_mag < threshold_new,0,binary_mag)
+                        change_mag = abs(mag - prev_mag)
+                        binary_mag = np.ones(change_mag.shape,dtype=np.float64)
+                        threshold_new = np.mean(change_mag , dtype=np.float64)
+                        varience = np.where(change_mag < threshold_new,0,binary_mag)
 
-                    varience = len(varience[varience == 1])
+                        varience = len(varience[varience == 1])
 
-                    if np.all(prev_varience) == 0 and np.all(prev_mag) == 0: 
-                        # prev_binary_indicator = binary_indicator
-                        prev_varience = varience
+                        if np.all(prev_varience) == 0 and np.all(prev_mag) == 0: 
+                            # prev_binary_indicator = binary_indicator
+                            prev_varience = varience
+                            prev_mag = mag
+                            continue
+
+                        if varience / prev_varience >= 2 and varience > prev_varience:
+                            print('Potential accident, {}'.format(datetime.datetime.now()))
+                        
+                            frame_img = Image.fromarray(image[...,::-1])
+
+                            start_time = timer()
+                            print('Process yolo')
+                            boxs = yolo.detect_image(frame_img)
+                            print(boxs)
+                            print("Data in x vector {}".format(len(x)))
+                            if len(boxs) != 0:
+                                for box in boxs:
+                                    
+                                    frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
+                                    if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
+                                        frame_img = cv2.resize(frame_img , (224,224))
+                                        x.append(frame_img)
+                                        # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
+                                if len(x) != 0:
+                                    x = np.array(x)
+                                    base_model.predict(x)
+                                    print("LSTM processing")
+                                    x_features = base_model.predict(x)
+                                    x_features = x_features.reshape(x_features.shape[0], x_features.shape[1]*x_features.shape[2], x_features.shape[3])
+                                    answer = lstm.predict(x_features)
+                                    
+                                    answer = [int(np.round(x)) for x in answer]
+                                    
+
+                                    accident_amount =  (answer.count(0)/len(answer)) * 100
+                                    normal = (answer.count(1)/len(answer))*100 
+                                    print("Probabilities ----------------------------------------------")
+                                    print("Accident: {} %".format(accident_amount))
+                                    print("Normal: {} %".format(normal))
+                                    print(' -----------------------------------------------------------')
+
+                                    if int(accident_amount) > int(accident_threshold):
+                                        anserImgs = [a for a,b in zip(x, answer) if b != 1]
+                                        print( "Images in accidetns: ", len(anserImgs))
+                                        print("Post result")
+                                        # for indx, img in enumerate(anserImgs):
+                                        cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg', image)
+                                        rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg')
+
+                                    answer = []
+
+                                    x = []
+
+                        prev_gray = gray
                         prev_mag = mag
-                        continue
-
-                    if varience / prev_varience >= 2 and varience > prev_varience:
-                        print('Potential accident, {}'.format(datetime.datetime.now()))
-                    
-                        frame_img = Image.fromarray(image[...,::-1])
-
-                        start_time = timer()
-                        print('Process yolo')
-                        boxs = yolo.detect_image(frame_img)
-                        print(boxs)
-                        print("Data in x vector {}".format(len(x)))
-                        if len(boxs) != 0:
-                            for box in boxs:
-                                
-                                frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
-                                if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
-                                    frame_img = cv2.resize(frame_img , (224,224))
-                                    x.append(frame_img)
-                                    # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', image)
-                            if len(x) != 0:
-                                x = np.array(x)
-                                base_model.predict(x)
-                                print("LSTM processing")
-                                x_features = base_model.predict(x)
-                                x_features = x_features.reshape(x_features.shape[0], x_features.shape[1]*x_features.shape[2], x_features.shape[3])
-                                answer = lstm.predict(x_features)
-                                
-                                answer = [int(np.round(x)) for x in answer]
-                                
-
-                                accident_amount =  (answer.count(0)/len(answer)) * 100
-                                normal = (answer.count(1)/len(answer))*100 
-                                print("Probabilities ----------------------------------------------")
-                                print("Accident: {} %".format(accident_amount))
-                                print("Normal: {} %".format(normal))
-                                print(' -----------------------------------------------------------')
-
-                                if int(accident_amount) > int(accident_threshold):
-                                    anserImgs = [a for a,b in zip(x, answer) if b != 1]
-                                    print( "Images in accidetns: ", len(anserImgs))
-                                    print("Post result")
-                                    # for indx, img in enumerate(anserImgs):
-                                    cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg', image)
-                                    rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg')
-
-                                answer = []
-
-                                x = []
-
-                    prev_gray = gray
-                    prev_mag = mag
-                    prev_varience = varience
+                        prev_varience = varience
 
         end = time.time()
         calc_time_elapsed(start, end)
@@ -1058,7 +1059,6 @@ if __name__ == '__main__':
 
         print("Load base BGG16 model")
         base_model = load_VGG16_model()
-        print("RESULT : ", cam_data)
         print("Load LSTM model")
         lstm = load_model(os.path.join(ROOT_DIR, args.weights))
         print(lstm.summary())
