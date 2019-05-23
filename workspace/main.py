@@ -679,7 +679,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                     mask = np.zeros_like(first_frame)
                     mask[..., 1] = 255
 
-                    for idx_frame in range(1):
+                    for idx_frame in range(2):
 
                         print("Process camera {}".format(camera['stream'].name))
 
