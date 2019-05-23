@@ -667,6 +667,8 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
             for key in cam_data.keys():
                 prev_mag = 0
                 prev_varience = 0
+                mag = 0
+                varience = 0
                 camera = cam_data[key]
                 image = camera['stream'].read()
                 if image is not None:
