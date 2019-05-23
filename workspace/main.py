@@ -713,7 +713,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                             prev_mag = mag
                             continue
 
-                        if varience / prev_varience >= 2 and varience > prev_varience:
+                        if varience / prev_varience >= 3 and varience > prev_varience:
                             print('Potential accident, {}'.format(datetime.datetime.now()))
                         
                             frame_img = Image.fromarray(image[...,::-1])
