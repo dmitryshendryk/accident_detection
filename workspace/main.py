@@ -776,6 +776,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
         first_frame = None
         while first_frame is None or len(first_frame) == 0:
             ret, first_frame = cap.read()
+            print(first_frame)
         
         first_frame = cv2.resize(first_frame,(224,224))
         prev_gray = cv2.cvtColor(first_frame, cv2.COLOR_BGR2GRAY)
