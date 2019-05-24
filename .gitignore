@@ -1,6 +1,15 @@
 
 videos_accident/
-
-model_data/
-
 \.idea/
+.DS_Store
+.gitignore
+val_dataset
+__pycache__
+UCF-101
+.vscode
+visual_t3d
+dataset/
+model_data/
+compute_flow
+opt_flow/build
+opt_flow/CMakeFiles
