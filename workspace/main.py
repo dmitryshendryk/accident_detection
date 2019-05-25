@@ -837,7 +837,7 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
                                 frame_img = cv2.resize(frame_img , (224,224))
                                 x.append(frame_img)
                                 # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
-                        if len(x) == 10:
+                        if len(x) > 10:
                             x = np.array(x)
                             base_model.predict(x)
                             print("LSTM processing")
