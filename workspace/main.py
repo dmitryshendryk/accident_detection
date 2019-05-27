@@ -18,8 +18,6 @@ from keras import backend as K
 ROOT_DIR = os.path.abspath("../")
 
 sys.path.append(ROOT_DIR)  # To find local version of the library
-from workspace import evaluate
-from workspace import helper
 from tools.rest_api import RestAPI
 from tools.db_connector import DBReader
 from tools.video_handler import VideoStream
