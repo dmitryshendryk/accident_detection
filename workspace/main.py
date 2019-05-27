@@ -36,10 +36,11 @@ DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 
-global time_last_db_check = time.time()
-global DB_CHECK_INTERVAL = 10.0
+time_last_db_check = time.time()
+DB_CHECK_INTERVAL = 10.0
 
 def check_db_and_update(db_manager, cam_data):
+        global time_last_db_check
         time_since_last_check = time.time() - time_last_db_check
 
         if(time_since_last_check > DB_CHECK_INTERVAL):
