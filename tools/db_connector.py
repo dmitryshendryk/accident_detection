@@ -176,52 +176,59 @@ class DBReader():
 
         return new_camera_info
 
-    """
-    Check if db has changed when new cameras were added or removed
-
-    returns:
-        True: bool flag indicating change
-        add: list containing new elements
-        remove: list containing old elements
-    """
+   
     def db_changed(self):
-
-        # #return false if camera query failed
-        # if(not self.query_cameras()):
-        #      return False , False , False
 
         self.query_cameras()
 
         changed = True
         add = []
         remove = []
+        update = []
 
-        # this ignore duplicates
-        # TODO: sort can also be used(faster?), or collection.counter
         set_cur = set(self.curr_id_list)
         set_old = set(self.id_list)
 
-
-        # check if there is a different element in lists
-        diff = False
-        for d1, d2 in zip(self.cameras_info, self.curr_cameras_info):
-            for key, value in d1.items():
-                if value != d2[key]:
-                    diff = True
-
-        if (set_cur == set_old):
-            changed  = False
-            return False, add, remove
 
         union = set(self.curr_id_list) | set(self.id_list)
         add = union - set_old
         remove = union - set_cur
 
-        print("add list: ", list(add))
+
+        intersection = set(self.id_list).intersection(set(self.curr_id_list))
+        for idx in list(intersection):
+            query_idx0 = -1
+            query_cam0 = []
+            for cam in self.cameras_info:
+                query_idx0 = cam['Id']
+                query_cam0 = cam
+                if(query_idx0 == idx):
+                    break
+
+            query_idx1 = -1
+            query_cam1 = []
+            for cam in self.curr_cameras_info:
+                query_idx1 = cam['Id']
+                query_cam1 = cam
+                if(query_idx1 == idx):
+                    break
+
+            is_update = not (query_cam1== query_cam0)
+            if(is_update):
+                update.append(idx)
+
+
+
+        print("!!!!!!!!!!!!!!!!!!! update: ", update)
+
+        if (set_cur == set_old ):
+            changed  = False
+            return False, [], [], update
+
 
         self.cameras_info = self.curr_cameras_info
         self.id_list = self.curr_id_list
-        return True, list(add), list(remove)
+        return True, list(add), list(remove), list(update)
 
 # if __name__ == "__main__":
     # db = DBReader()
