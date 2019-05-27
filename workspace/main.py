@@ -29,14 +29,89 @@ import pathlib
 from timeit import default_timer as timer
 
 
-# Path to trained weights file
-COCO_WEIGHTS_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
 # Directory to save logs and model checkpoints, if not provided
 # through the command line argument --logs
 DEFAULT_LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+
+time_last_db_check = time.time()
+DB_CHECK_INTERVAL = 10.0
+
+def check_db_and_update(db_manager, cam_data):
+        time_since_last_check = time.time() - time_last_db_check
+
+        if(time_since_last_check > DB_CHECK_INTERVAL):
+            time_last_db_check = time.time()
+
+            is_changed, add_elements, remove_elements, update_elements =  db_manager.db_changed()
+
+            if(not is_changed and len(update_elements) == 0):
+                return False
+
+            print("LOG: DB CHANGED!")
+            for new_camera_id in  add_elements:
+                logging.warning("LOG: adding NEW camera id:{}".format(str(new_camera_id)))
+                new_camera_info = db_manager.get_camera_info_by_id(new_camera_id)
+
+                if(len(new_camera_info) == 0 ):
+                    logging.warning("ERROR: could not find camera info from camera_id")
+                    continue
+
+                new_connection_string = db_manager.get_connection_string(new_camera_info)
+
+                cam = { 'stream' :  VideoStream(new_connection_string ,name=new_camera_info['Id']),
+                        'counter' : CrowdDetector(),
+                        'info' : new_camera_info
+                      }
+                cam['stream'].start()
+
+                print("     initing camera: ", cam['stream'].name )
+                print("     url: ", new_connection_string)
+
+                cam_data[cam['stream'].name] = cam
+
+            for remove_camera in remove_elements:
+                logging.warning("removing camera: {} ".format(str(remove_camera)))
+                if(str(remove_camera) in cam_data):
+                    cam_data[str(remove_camera)]["stream"].stop()
+                    del(cam_data[str(remove_camera)])
+
+
+            for up_camera_id in  update_elements:
+
+                logging.warning("updating camera of id:{}".format(str(up_camera_id)))
+
+                new_camera_info = db_manager.get_camera_info_by_id(up_camera_id)
+                if(len(new_camera_info) == 0 ):
+                    logging.warning("ERROR: could not find camera info from camera_id")
+                    continue
+
+                new_connection_string = db_manager.get_connection_string(new_camera_info)
+
+                if(str(up_camera_id) in cam_data):
+                    cam_data[str(up_camera_id)]["stream"].stop()
+                    del(cam_data[str(up_camera_id)]["stream"])
+
+                    cam_data[str(up_camera_id)]["stream"] = VideoStream(new_connection_string ,name=new_camera_info['Id'])
+                    cam_data[str(up_camera_id)]['stream'].start()
+                else:
+                    cam = { 'stream' :  VideoStream(new_connection_string ,name=new_camera_info['Id']),
+                        'counter' : CrowdDetector(),
+                        'info' : new_camera_info
+                         }
+                    cam['stream'].start()
+
+                    print("     initing camera: ", cam['stream'].name )
+                    print("     url: ", new_connection_string)
+
+                    cam_data[cam['stream'].name] = cam
+
+            return cam_data
+
+        return False
+
 
 def cameras_init(cameras_list):
 
@@ -60,7 +135,7 @@ def calc_time_elapsed(start, end):
     minutes, seconds = divmod(rem, 60)
     print("Processing time:  {:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
 
-def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, video_path=None, cam_data=None, response_delay=None):
+def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None, video_path=None, cam_data=None, response_delay=None):
     # assert image_path or video_path
     class_names = ['BG','accident']
     # Image or video?
@@ -75,6 +150,9 @@ def detection(lstm, yolo, base_model, accident_threshold=70, image_path=None, vi
         print("Processing on camera")
         x = []
         while True:
+            db_update = check_db_and_update(db, cam_data)
+            if db_update:
+                cam_data = db_update
             for key in cam_data.keys():
                 prev_mag = 0
                 prev_varience = 0
@@ -366,7 +444,7 @@ if __name__ == '__main__':
 
         yolo = YOLO()
         print("Yolo loaded")
-        detection(lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
+        detection(db, lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
                                 video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 
 
