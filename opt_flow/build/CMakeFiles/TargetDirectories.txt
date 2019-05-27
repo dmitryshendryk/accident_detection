@@ -1,5 +1,0 @@
-/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/build/CMakeFiles/edit_cache.dir
-/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/build/CMakeFiles/rebuild_cache.dir
-/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/build/CMakeFiles/TAGS.dir
-/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/build/CMakeFiles/compute_flow.dir
-/home/dmitry/Documents/Projects/opticalFlow_TwoStreamNN/opt_flow/build/CMakeFiles/compute_flow_automoc.dir
