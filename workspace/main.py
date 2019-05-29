@@ -53,11 +53,11 @@ def check_db_and_update(db_manager, cam_data):
 
             print("LOG: DB CHANGED!")
             for new_camera_id in  add_elements:
-                logging.warning("LOG: adding NEW camera id:{}".format(str(new_camera_id)))
+                print("LOG: adding NEW camera id:{}".format(str(new_camera_id)))
                 new_camera_info = db_manager.get_camera_info_by_id(new_camera_id)
 
                 if(len(new_camera_info) == 0 ):
-                    logging.warning("ERROR: could not find camera info from camera_id")
+                    print("ERROR: could not find camera info from camera_id")
                     continue
 
                 new_connection_string = db_manager.get_connection_string(new_camera_info)
@@ -74,7 +74,7 @@ def check_db_and_update(db_manager, cam_data):
                 cam_data[cam['stream'].name] = cam
 
             for remove_camera in remove_elements:
-                logging.warning("removing camera: {} ".format(str(remove_camera)))
+                print("removing camera: {} ".format(str(remove_camera)))
                 if(str(remove_camera) in cam_data):
                     cam_data[str(remove_camera)]["stream"].stop()
                     del(cam_data[str(remove_camera)])
@@ -82,11 +82,11 @@ def check_db_and_update(db_manager, cam_data):
 
             for up_camera_id in  update_elements:
 
-                logging.warning("updating camera of id:{}".format(str(up_camera_id)))
+                print("updating camera of id:{}".format(str(up_camera_id)))
 
                 new_camera_info = db_manager.get_camera_info_by_id(up_camera_id)
                 if(len(new_camera_info) == 0 ):
-                    logging.warning("ERROR: could not find camera info from camera_id")
+                    print("ERROR: could not find camera info from camera_id")
                     continue
 
                 new_connection_string = db_manager.get_connection_string(new_camera_info)
