@@ -63,7 +63,6 @@ def check_db_and_update(db_manager, cam_data):
                 new_connection_string = db_manager.get_connection_string(new_camera_info)
 
                 cam = { 'stream' :  VideoStream(new_connection_string ,name=new_camera_info['Id']),
-                        'counter' : CrowdDetector(),
                         'info' : new_camera_info
                       }
                 cam['stream'].start()
@@ -99,7 +98,6 @@ def check_db_and_update(db_manager, cam_data):
                     cam_data[str(up_camera_id)]['stream'].start()
                 else:
                     cam = { 'stream' :  VideoStream(new_connection_string ,name=new_camera_info['Id']),
-                        'counter' : CrowdDetector(),
                         'info' : new_camera_info
                          }
                     cam['stream'].start()
