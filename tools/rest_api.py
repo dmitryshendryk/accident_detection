@@ -5,7 +5,6 @@ import requests
 from tools.config import Config
 # from config import Config
 import datetime
-from scipy.misc import imread,imresize
 import json
 
 ROOT_DIR = os.path.abspath('../')
