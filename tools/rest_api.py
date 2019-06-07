@@ -24,7 +24,7 @@ class RestAPI():
         print("Response {}".format(r))
     
     def save_img(self, img_name, img_path):
-        r = requests.put(self.config.IMG_URL_LOCAL + '/upload/accidents' + img_name, data=open(img_path, 'rb'))
+        r = requests.put(self.config.IMG_URL_LOCAL + '/upload/accidents/' + img_name, data=open(img_path, 'rb'))
 
 if __name__ == "__main__":
     rest = RestAPI()
