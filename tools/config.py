@@ -2,6 +2,8 @@ class Config():
 
     POST_URL = 'http://ec2-18-223-248-81.us-east-2.compute.amazonaws.com/api/v1/ai/message'
     TOKEN = '4cb3d1e9-f6c3-4d47-9ef2-c65b394ac8d7'
+    IMG_URL_REMOTE = 'http://35.193.146.105:8090'
+    IMG_URL_LOCAL = 'http://localhost:8090'
 
     server = 'ec2-18-223-248-81.us-east-2.compute.amazonaws.com,5434'
     database = 'master'

@@ -5,12 +5,11 @@ import requests
 from tools.config import Config
 # from config import Config
 import datetime
-
+from scipy.misc import imread,imresize
 import json
 
 ROOT_DIR = os.path.abspath('../')
 sys.path.append(ROOT_DIR)
-
 
 
 class RestAPI():
@@ -24,7 +23,10 @@ class RestAPI():
         print(payload)
         r = requests.post(self.config.POST_URL, json=(payload), headers=headers)
         print("Response {}".format(r))
+    
+    def save_img(self, img_name):
+        r = requests.put(self.config.IMG_URL_LOCAL + '/upload/accidents' + img_name, data=open(img_name, 'rb'))
 
 if __name__ == "__main__":
     rest = RestAPI()
-    rest.send_post()
+    rest.save_img('1.pic.jpg')
