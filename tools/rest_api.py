@@ -2,8 +2,8 @@ import json
 import os 
 import sys
 import requests
-from tools.config import Config
-# from config import Config
+# from tools.config import Config
+from config import Config
 import datetime
 import json
 
@@ -24,8 +24,8 @@ class RestAPI():
         print("Response {}".format(r))
     
     def save_img(self, img_name, img_path):
-        r = requests.put(self.config.IMG_URL_LOCAL + '/upload/accidents/' + img_name, data=open(img_path, 'rb'))
+        r = requests.put(self.config.IMG_URL_REMOTE + '/upload/accidents/' + img_name, data=open(img_path, 'rb'))
 
 if __name__ == "__main__":
     rest = RestAPI()
-    rest.save_img('1.pic.jpg')
+    rest.save_img('test.jpg', 'test.jpg')
