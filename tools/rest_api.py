@@ -16,9 +16,9 @@ class RestAPI():
     def __init__(self):
         self.config = Config()
 
-    def send_post(self, camera_id, image_path):
+    def send_post(self, camera_id, img_name):
         headers = {}
-        payload = {"cameraId": str(camera_id), "type": "Danger","message": "Accident detected","cameraViewImageUrl": str(image_path), "eventTime": str(datetime.datetime.now())}
+        payload = {"cameraId": str(camera_id), "type": "Danger","message": "Accident detected","cameraViewImageUrl": str(self.config.IMG_URL_REMOTE + '/upload/accidents/' + img_name), "eventTime": str(datetime.datetime.now())}
         print(payload)
         r = requests.post(self.config.POST_URL, json=(payload), headers=headers)
         print("Response {}".format(r))
