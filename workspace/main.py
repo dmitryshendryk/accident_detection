@@ -116,7 +116,8 @@ def cameras_init(cameras_list):
 
     cam_data = {}
     for camera_info in cameras_list:
-        camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
+        camera_path = Config.SERVER_URL + ':' + Config.STREAM_PORT + '/stream/' + camera_info['Name']
+        # camera_path = "rtsp://" + camera_info['CameraUser'] + ':' + camera_info['Password'] + '@' + camera_info['Ip'] + '/Streaming/Channels/1'
         cam = {
             "stream": VideoStream(camera_path, name=camera_info['Id']),
             "info":  camera_info
