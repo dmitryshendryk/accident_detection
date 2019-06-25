@@ -147,7 +147,8 @@ class DBReader():
         return True
 
     def get_connection_string(self,camera_info):
-        connection_string = "rtsp://" + camera_info['CameraUser']  + ":" + camera_info['Password'] + "@" + camera_info['Ip'] + "/Streaming/Channels/1"
+        # connection_string = "rtsp://" + camera_info['CameraUser']  + ":" + camera_info['Password'] + "@" + camera_info['Ip'] + "/Streaming/Channels/1"
+        connection_string = Config.SERVER_URL + ':' + Config.STREAM_PORT + '/stream/' + camera_info['Name']
         return connection_string
 
 
