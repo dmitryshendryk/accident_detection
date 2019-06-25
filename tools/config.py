@@ -14,3 +14,6 @@ class Config():
 
     camera_table = 'TectumTraffic.ai.Camera'
     camera_server_table = 'TectumTraffic.ai.ServerCamera'    
+
+    SERVER_URL = 'rtmp://35.193.146.105'
+    STREAM_PORT = '1935' 
