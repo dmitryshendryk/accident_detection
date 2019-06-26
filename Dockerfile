@@ -97,8 +97,7 @@ RUN pip3 --no-cache-dir install \
     numpy \ 
     pyodbc \
     pypika \
-    requests \ 
-    imageio
+    requests
 
 #WORKDIR /accident_detection/
 
