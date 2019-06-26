@@ -245,8 +245,17 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                                         print( "Images in accidetns: ", len(anserImgs))
                                         print("Post result")
                                         # for indx, img in enumerate(anserImgs):
-                                        cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg', image)
-                                        rest.send_post(camera['stream'].name, ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg')
+                                        
+                                        img_name = str(int(time.time()))  + '.gif'
+                                        img_path = ROOT_DIR+ '/imgs/' + img_name
+                                        # cv2.imwrite(img_path, image)
+                                        imageio.mimsave(img_path, images_queue)
+                                        
+                                        # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg', image)
+                                        rest.send_post(camera['stream'].name, img_path)
+
+                                        rest.save_img(img_name, img_path)
+                                        os.remove(img_path)
 
                                     answer = []
 
