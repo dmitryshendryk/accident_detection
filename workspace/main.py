@@ -24,6 +24,8 @@ from tools.video_handler import VideoStream
 
 from yolo import YOLO
 
+import collections
+import imageio
 import time 
 import pathlib
 from timeit import default_timer as timer
@@ -145,7 +147,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
     start = time.time()
     print("VIDEO PATH :  ", video_path)
     print("CAMERA : ", cam_data)
-   
+    images_queue = collections.deque(maxlen=40)
     if cam_data:
         print("Processing on camera")
         x = []
@@ -283,6 +285,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
         while True:
             ref, image = cap.read()
             
+            images_queue.append(image)
             if ref:
                 if image is None:
                     print("Frame is broken")
@@ -356,12 +359,15 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                                     print( "Images in accidetns: ", len(anserImgs))
                                     print("Post result")
                                     # for indx, img in enumerate(anserImgs):
-                                    img_name = str(int(time.time()))  + '.jpg'
+                                    # img_name = str(int(time.time()))  + '.jpg'
+                                    img_name = str(int(time.time()))  + '.gif'
                                     img_path = ROOT_DIR+ '/imgs/' + img_name
-                                    cv2.imwrite(img_path, image)
+                                    # cv2.imwrite(img_path, image)
                                     rest.send_post("1476320433439", img_name)
-                                    rest.save_img(img_name, img_path)
-                                    os.remove(img_path)
+                                    imageio.mimsave('/image_output/upload/accidents/' + img_name, images_queue)
+
+                                    # rest.save_img(img_name, img_path)
+                                    # os.remove(img_path)
 
                                 answer = []
 
