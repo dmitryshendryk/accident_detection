@@ -363,11 +363,11 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                                     img_name = str(int(time.time()))  + '.gif'
                                     img_path = ROOT_DIR+ '/imgs/' + img_name
                                     # cv2.imwrite(img_path, image)
+                                    imageio.mimsave(img_path, images_queue)
                                     rest.send_post("1476320433439", img_name)
-                                    imageio.mimsave('/image_output/upload/accidents/' + img_name, images_queue)
 
-                                    # rest.save_img(img_name, img_path)
-                                    # os.remove(img_path)
+                                    rest.save_img(img_name, img_path)
+                                    os.remove(img_path)
 
                                 answer = []
 
