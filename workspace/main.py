@@ -397,19 +397,19 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                     frame_count = 0
 
 
-            varience = len(varience[varience == 1])
+                varience = len(varience[varience == 1])
 
-            if np.all(prev_varience) == 0 and np.all(prev_mag) == 0: 
-                prev_varience = varience
+                if np.all(prev_varience) == 0 and np.all(prev_mag) == 0: 
+                    prev_varience = varience
+                    prev_mag = mag
+                    continue
+
+                # if varience / prev_varience >= 2 and varience > prev_varience:
+                #     print('Potential accident, {}'.format(datetime.datetime.now()))
+
+                prev_gray = gray
                 prev_mag = mag
-                continue
-
-            # if varience / prev_varience >= 2 and varience > prev_varience:
-            #     print('Potential accident, {}'.format(datetime.datetime.now()))
-
-            prev_gray = gray
-            prev_mag = mag
-            prev_varience = varience
+                prev_varience = varience
  
             else:
                 break               
