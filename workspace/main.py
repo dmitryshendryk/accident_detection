@@ -301,9 +301,10 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
             images_queue.append(image)
             if ref is None:
                 continue
-                # if image is None:
-                #     print("Frame is broken")
-                #     continue
+            
+            if image is None:
+                print("Frame is broken")
+                continue
 
             next_frame = image.copy()
             frame_count += 1
