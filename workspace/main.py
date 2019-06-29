@@ -148,6 +148,10 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
     print("VIDEO PATH :  ", video_path)
     print("CAMERA : ", cam_data)
     images_queue = collections.deque(maxlen=40)
+
+    time_last_check = time.time()
+    check_interval = 2.0
+    
     if cam_data:
         print("Processing on camera")
         x = []
@@ -315,11 +319,11 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                 temp_flows.append(varience)
 
 
-                if frame_count % 5 == 0:
+                if frame_count % 4 == 0:
                     flow_video = np.zeros(change_mag.shape,dtype=np.float64)
                     for each_flow in temp_flows:
                         flow_video = flow_video + each_flow
-                    flow_video = flow_video / 5
+                    flow_video = flow_video / 4
 
                     flow_video = len(flow_video[flow_video == 1])
 
@@ -328,59 +332,64 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                         prev_flow_video = flow_video
                         continue
 
-                    if flow_video / prev_flow_video >= 2:
-                        print('Potential accident, {}'.format(datetime.datetime.now()))
+                    if flow_video / prev_flow_video >= 2 and flow_video / prev_flow_video <= 4 and (flow_video != 0 or prev_flow_video != 0) :
 
-                        frame_img = Image.fromarray(image[...,::-1])
-                        start_time = timer()
-                        print('Process yolo')
-                        boxs = yolo.detect_image(frame_img)
-                        print(boxs)
-                        print("Data in x vector {}".format(len(x)))
-                        if len(boxs) != 0:
-                            for box in boxs:
+                        time_since_last_check = time.time() - time_last_check
+            
+                        if time_since_last_check > check_interval:
+                            time_last_check = time.time()
+                            print('Potential accident, {}'.format(datetime.datetime.now()))
+
+                        # frame_img = Image.fromarray(image[...,::-1])
+                        # start_time = timer()
+                        # print('Process yolo')
+                        # boxs = yolo.detect_image(frame_img)
+                        # print(boxs)
+                        # print("Data in x vector {}".format(len(x)))
+                        # if len(boxs) != 0:
+                        #     for box in boxs:
                                 
-                                frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
-                                if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
-                                    frame_img = cv2.resize(frame_img , (224,224))
-                                    x.append(frame_img)
-                                    # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
-                            if len(x) > 1:
-                                x = np.array(x)
-                                base_model.predict(x)
-                                print("LSTM processing")
-                                x_features = base_model.predict(x)
-                                x_features = x_features.reshape(x_features.shape[0], x_features.shape[1]*x_features.shape[2], x_features.shape[3])
-                                answer = lstm.predict(x_features)
+                        #         frame_img = image[box[1]-padding_left:box[1]+box[3] + padding_left ,box[0] - padding_right:box[0]+box[2] + padding_right]
+                        #         if frame_img.shape[0] != 0 and frame_img.shape[1] != 0:
+                        #             frame_img = cv2.resize(frame_img , (224,224))
+                        #             x.append(frame_img)
+                        #             # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time())) + '.jpg', frame_img)
+                        #     if len(x) > 1:
+                        #         x = np.array(x)
+                        #         base_model.predict(x)
+                        #         print("LSTM processing")
+                        #         x_features = base_model.predict(x)
+                        #         x_features = x_features.reshape(x_features.shape[0], x_features.shape[1]*x_features.shape[2], x_features.shape[3])
+                        #         answer = lstm.predict(x_features)
                                 
-                                answer = [int(np.round(x)) for x in answer]
+                        #         answer = [int(np.round(x)) for x in answer]
                                 
 
-                                accident_amount =  (answer.count(0)/len(answer)) * 100
-                                normal = (answer.count(1)/len(answer))*100 
-                                print("Probabilities ----------------------------------------------")
-                                print("Accident: {} %".format(accident_amount))
-                                print("Normal: {} %".format(normal))
-                                print(' -----------------------------------------------------------')
+                        #         accident_amount =  (answer.count(0)/len(answer)) * 100
+                        #         normal = (answer.count(1)/len(answer))*100 
+                        #         print("Probabilities ----------------------------------------------")
+                        #         print("Accident: {} %".format(accident_amount))
+                        #         print("Normal: {} %".format(normal))
+                        #         print(' -----------------------------------------------------------')
 
-                                if int(accident_amount) > int(accident_threshold):
-                                    anserImgs = [a for a,b in zip(x, answer) if b != 1]
-                                    print( "Images in accidetns: ", len(anserImgs))
-                                    print("Post result")
-                                    # for indx, img in enumerate(anserImgs):
-                                    # img_name = str(int(time.time()))  + '.jpg'
-                                    img_name = str(int(time.time()))  + '.gif'
-                                    img_path = ROOT_DIR+ '/imgs/' + img_name
-                                    # cv2.imwrite(img_path, image)
-                                    imageio.mimsave(img_path, images_queue)
-                                    rest.send_post("1476320433439", img_name)
+                        #         if int(accident_amount) > int(accident_threshold):
+                        #             anserImgs = [a for a,b in zip(x, answer) if b != 1]
+                        #             print( "Images in accidetns: ", len(anserImgs))
+                        #             print("Post result")
+                        #             # for indx, img in enumerate(anserImgs):
+                        #             # img_name = str(int(time.time()))  + '.jpg'
+                        #             img_name = str(int(time.time()))  + '.gif'
+                        #             img_path = ROOT_DIR+ '/imgs/' + img_name
+                        #             # cv2.imwrite(img_path, image)
+                        #             imageio.mimsave(img_path, images_queue)
+                        #             rest.send_post("1476320433439", img_name)
 
-                                    rest.save_img(img_name, img_path)
-                                    os.remove(img_path)
+                        #             rest.save_img(img_name, img_path)
+                        #             os.remove(img_path)
 
-                                answer = []
+                        #         answer = []
 
-                                x = []
+                        #         x = []
                     
                     prev_flow_video = flow_video
                     temp_flows = []
@@ -400,7 +409,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                 prev_gray = gray
                 prev_mag = mag
                 prev_varience = varience
-
+ 
             else:
                 break               
 
