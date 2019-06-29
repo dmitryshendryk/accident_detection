@@ -151,7 +151,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
 
     time_last_check = time.time()
     check_interval = 2.0
-    
+
     if cam_data:
         print("Processing on camera")
         x = []
@@ -305,7 +305,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                     continue
 
                 next_frame = image.copy()
-
+                frame_count += 1
                 next_frame = cv2.resize(next_frame,(224,224))
                 gray = cv2.cvtColor(next_frame, cv2.COLOR_BGR2GRAY)
                 
