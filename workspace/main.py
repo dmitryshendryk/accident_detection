@@ -411,8 +411,8 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
             prev_mag = mag
             prev_varience = varience
  
-            else:
-                break               
+            # else:
+                # break               
 
                     
         end = time.time()
