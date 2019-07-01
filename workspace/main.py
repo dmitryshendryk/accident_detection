@@ -453,6 +453,7 @@ if __name__ == '__main__':
     parser.add_argument('--streaming')
     parser.add_argument('--response_delay')
     parser.add_argument('--accident_threshold')
+    parser.add_argument('--folder')
     
     args = parser.parse_args()
 
@@ -483,6 +484,7 @@ if __name__ == '__main__':
         if args.streaming == 'video':
             vid_path = os.path.join(ROOT_DIR, args.vid_path)
 
+        
 
         K.clear_session()
 
@@ -494,8 +496,17 @@ if __name__ == '__main__':
 
         yolo = YOLO()
         print("Yolo loaded")
-        detection(db, lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
-                                video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
+        
+        if args.folder == None:
+
+            detection(db, lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
+                                    video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
+
+        elif args.folder != None:
+            videos = os.listdir(ROOT_DIR  + '/' + args.folder)
+            for video in videos:
+                detection(db, lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
+                                    video_path=ROOT_DIR+ '/' + video, cam_data=cam_data, response_delay=args.response_delay)
 
 
 
