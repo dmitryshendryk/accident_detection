@@ -503,10 +503,10 @@ if __name__ == '__main__':
                                     video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
 
         elif args.folder != "None":
-            videos = os.listdir(ROOT_DIR  + '/' + args.folder)
+            videos = os.listdir(args.folder)
             for video in videos:
                 detection(db, lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
-                                    video_path=ROOT_DIR+ '/videos_accident/' + video, cam_data=cam_data, response_delay=args.response_delay)
+                                    video_path='videos_accident/' + video, cam_data=cam_data, response_delay=args.response_delay)
 
 
 
