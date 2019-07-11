@@ -1,6 +1,5 @@
 import os
 class Config():
-    SERVER_URL = "rtmp://" + os.environ['SERVER_URL']
     IMAGE_PORT = os.environ['IMAGE_PORT']
     STREAM_PORT = os.environ['STREAM_PORT']
 
