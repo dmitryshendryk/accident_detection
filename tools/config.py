@@ -1,7 +1,7 @@
 import os
 class Config():
-    IMAGE_PORT = os.environ['IMAGE_PORT']
-    STREAM_PORT = os.environ['STREAM_PORT']
+    # IMAGE_PORT = os.environ['IMAGE_PORT']
+    # STREAM_PORT = os.environ['STREAM_PORT']
 
     POST_URL = 'http://ec2-3-17-203-43.us-east-2.compute.amazonaws.com:8080/api/v1/ai/message'
     TOKEN = '4cb3d1e9-f6c3-4d47-9ef2-c65b394ac8d7'
