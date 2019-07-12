@@ -21,5 +21,5 @@ class Config():
     # SERVER_URL = 'rtmp://35.232.194.111'
     # STREAM_PORT = '1935'    
     SERVER_URL = 'rtmp://' + os.getenv('SERVER_URL', '35.232.194.111')
-    STREAM_PORT = os.environ('STREAM_PORT', '1935')
-    
+    STREAM_PORT = os.getenv('STREAM_PORT', '1935')
+
