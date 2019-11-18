@@ -497,10 +497,10 @@ if __name__ == '__main__':
         yolo = YOLO()
         print("Yolo loaded")
 
-        print(args.folder)
+        print(args.folder == "None")
         print(ROOT_DIR)
         
-        if args.folder == "None" | args.folder is None:
+        if args.folder == "None" or args.folder is None:
 
             detection(db, lstm, yolo, base_model, accident_threshold=args.accident_threshold, image_path=None,
                                     video_path=vid_path, cam_data=cam_data, response_delay=args.response_delay)
