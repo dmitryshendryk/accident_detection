@@ -255,7 +255,8 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                                         # cv2.imwrite(img_path, image)
                                         if len(images_queue) != 0:
                                             imageio.mimsave(img_path, images_queue)
-                                        
+                                            images_queue.clear()
+
                                         # cv2.imwrite(ROOT_DIR+ '/imgs/' + str(int(time.time()))  + '.jpg', image)
                                         rest.send_post(camera['stream'].name, img_path)
 
