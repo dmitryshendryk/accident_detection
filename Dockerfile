@@ -100,7 +100,8 @@ RUN pip3 --no-cache-dir install \
     numpy \ 
     pyodbc \
     pypika \
-    requests
+    requests \
+    Pillow==2.2.2
 
 #WORKDIR /accident_detection/
 

@@ -183,7 +183,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                             print("Frame is broken")
                             # exit(0)
                             continue
-
+                        images_queue.append(image)
                         next_frame = image.copy()
 
                         next_frame = cv2.resize(next_frame,(224,224))
