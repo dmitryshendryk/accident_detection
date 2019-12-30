@@ -147,7 +147,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
     start = time.time()
     print("VIDEO PATH :  ", video_path)
     print("CAMERA : ", cam_data)
-    images_queue = collections.deque(maxlen=10)
+    images_queue = collections.deque(maxlen=40)
     time_last_check = time.time()
     check_interval = 2.0
 
