@@ -73,8 +73,8 @@ class DBReader():
         #query camera ids with desired service and running on our server
         q = Query.from_(camera_server_table) \
             .select(camera_server_table.cameraId) \
-            .where(camera_server_table.serviceId == 3) \
-            .where(camera_server_table.serverId == 1) \
+            .where(camera_server_table.serviceId == self.config.camera_service_id) \
+            .where(camera_server_table.serverId == self.config.camera_server_id) \
             .where(camera_server_table.isActive == '1')
 
         try:
