@@ -259,7 +259,7 @@ def detection(db, lstm, yolo, base_model, accident_threshold=70, image_path=None
                                         rest.send_post(camera['stream'].name, img_path)
 
                                         rest.save_img(img_name, img_path)
-                                        os.remove(img_path)
+                                        # os.remove(img_path)
                                         images_queue.clear()
 
 
